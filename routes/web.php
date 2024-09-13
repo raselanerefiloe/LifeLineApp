@@ -28,6 +28,9 @@ Route::get('/service', function () {
 Route::get('/contact', function () {
     return view('contact.index');
 })->name('contact');
+Route::post('/contact', function () {
+    return view('contact.index');
+})->name('contact.submit');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

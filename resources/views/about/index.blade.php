@@ -229,8 +229,8 @@
             </p>
             <p class="mt-4 text-gray-600">
                 <strong>Email:</strong> support@lifelinepharmacy.com <br>
-                <strong>Phone:</strong> +1 (800) 123-4567 <br>
-                <strong>Address:</strong> 123 Health St., Wellness City, USA
+                <strong>Phone:</strong> +266 2800 5333 <br>
+                <strong>Address:</strong> Sefika Complex, Maseru, Lesotho
             </p>
         </div>
 
