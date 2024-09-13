@@ -5,7 +5,7 @@
         <div class="relative bg-green-600 text-white text-center py-16 md:py-24 overflow-hidden rounded-lg">
             <div class="absolute inset-0 z-0">
                 <!-- Optional: Add a background image with opacity -->
-                <img src="{{ asset('img/hero/about.png') }}" alt="Background" class="w-full h-full opacity-50" />
+                <img src="{{ asset('img/hero/about.png') }}" alt="Background" class="w-full h-full opacity-90" />
             </div>
         </div>
 

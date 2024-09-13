@@ -37,14 +37,14 @@
             <div class="hidden md:flex space-x-6">
                 <a href="{{ route('home') }}"
                     class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('home') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Home</a>
-                <a href="{{ route('product.index') }}" class="text-gray-600 hover:text-gray-900" {{ request()->routeIs('product') ? 'underline
-                    decoration-2 underline-offset-4 decoration-green-500' : '' }}>Products</a>
-                <a href="{{ route('service') }}" class="text-gray-600 hover:text-gray-900" {{ request()->routeIs('service') ? 'underline
-                    decoration-2 underline-offset-4 decoration-green-500' : '' }}>Services</a>
-                <a href="{{ route('about') }}" class="text-gray-600 hover:text-gray-900" {{ request()->routeIs('about') ? 'underline
-                    decoration-2 underline-offset-4 decoration-green-500' : '' }}>About</a>
-                <a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900" {{ request()->routeIs('contact') ? 'underline
-                    decoration-2 underline-offset-4 decoration-green-500' : '' }}>Contact
+                <a href="{{ route('product.index') }}" class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('product.index') ? 'underline
+                    decoration-2 underline-offset-4 decoration-green-500' : '' }}">Products</a>
+                <a href="{{ route('service') }}" class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('service') ? 'underline
+                    decoration-2 underline-offset-4 decoration-green-500' : '' }}">Services</a>
+                <a href="{{ route('about') }}" class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('about') ? 'underline
+                    decoration-2 underline-offset-4 decoration-green-500' : '' }}">About</a>
+                <a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('contact') ? 'underline
+                    decoration-2 underline-offset-4 decoration-green-500' : '' }}">Contact
                     Us</a>
             </div>
             <!-- Mobile Menu Button -->
@@ -62,15 +62,15 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden">
         <div class="px-4 py-2">
-            <a href="#"
+            <a href="{{ route('home') }}"
                 class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('home') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Home</a>
-            <a href="#"
-                class="block text-gray-600 hover:text-gray-900 {{ request()->routeIs('product') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Products</a>
-            <a href="#"
+            <a href="{{ route('product.index') }}"
+                class="block text-gray-600 hover:text-gray-900 {{ request()->routeIs('product.index') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Products</a>
+            <a href="{{ route('service') }}"
                 class="block text-gray-600 hover:text-gray-900 {{ request()->routeIs('service') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Services</a>
             <a href="{{ route('about') }}"
                 class="block text-gray-600 hover:text-gray-900 {{ request()->routeIs('about') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">About</a>
-            <a href="#"
+            <a href="{{ route('contact') }}"
                 class="block text-gray-600 hover:text-gray-900 {{ request()->routeIs('contact') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Contact
                 Us</a>
         </div>

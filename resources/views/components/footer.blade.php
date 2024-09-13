@@ -42,8 +42,6 @@
                     <li><a href="#" class="hover:underline">Consult ENT Specialists</a></li>
                     <li><a href="#" class="hover:underline">Consult Geriatricians</a></li>
                     <li><a href="#" class="hover:underline">Consult Diabetologists</a></li>
-                    <li><a href="#" class="hover:underline">Apollo Health Insurance</a></li>
-                    <li><a href="#" class="hover:underline">Apollo Diabetes Reversal Program</a></li>
                     <li><a href="#" class="hover:underline">Book Lab Tests at Home</a></li>
                     <li><a href="#" class="hover:underline">Hemogram Test</a></li>
                     <li><a href="#" class="hover:underline">Lipid Profile Test</a></li>
@@ -69,7 +67,6 @@
                     <li><a href="#" class="hover:underline">Personal Care</a></li>
                     <li><a href="#" class="hover:underline">Baby Care</a></li>
                     <li><a href="#" class="hover:underline">Nutrition</a></li>
-                    <li><a href="#" class="hover:underline">Dolo 650</a></li>
                     <li><a href="#" class="hover:underline">Beauty Skin Care</a></li>
                     <li><a href="#" class="hover:underline">Immunity Boosters</a></li>
                     <li><a href="#" class="hover:underline">Covid Essentials</a></li>
