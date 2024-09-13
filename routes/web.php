@@ -17,6 +17,18 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function() {
     Route::resource('product', ProductController::class)->except(['index', 'show']);
 });
 
+Route::get('/about', function () {
+    return view('about.index');
+})->name('about');
+
+Route::get('/service', function () {
+    return view('service.index');
+})->name('service');
+
+Route::get('/contact', function () {
+    return view('contact.index');
+})->name('contact');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

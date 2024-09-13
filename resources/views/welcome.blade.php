@@ -54,6 +54,4 @@
 
     @include('components.quality-promo');
 
-    @include('components.footer');
-
 </x-guest-layout>
