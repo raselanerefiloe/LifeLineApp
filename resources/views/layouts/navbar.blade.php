@@ -25,11 +25,11 @@
             <!-- Logo and Company Name -->
             <a href="{{ route('home') }}" class="flex items-center space-x-2">
                 <!-- Logo -->
-                <img src="{{ asset('img/logo/Logo.png') }}" alt="LifeLine Logo" class="h-10">
+                <img src="{{ asset('/img/logo/Logo.png') }}" alt="LifeLine Logo" class="h-10">
                 <!-- Company Name in Column Layout -->
-                <div class="flex flex-col">
-                    <span class="text-xxl font-bold text-gray-800">LifeLine</span>
-                    <span class="text-md font-semibold text-gray-800">Pharmaceuticals</span>
+                <div class="hidden md:flex lg:flex flex-col">
+                    <span class="text-lg md:text-3xl lg:text-3xl font-bold text-gray-800">LifeLine</span>
+                    <span class="text-[3px] md:text-lg lg:text-lg font-semibold text-gray-600">Pharmaceuticals</span>
                 </div>
             </a>
 
@@ -61,7 +61,7 @@
     </div>
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden">
-        <div class="px-4 py-2">
+        <div class="px-4 py-2 flex flex-col gap-3">
             <a href="{{ route('home') }}"
                 class="text-gray-600 hover:text-gray-900 {{ request()->routeIs('home') ? 'underline decoration-2 underline-offset-4 decoration-green-500' : '' }}">Home</a>
             <a href="{{ route('product.index') }}"

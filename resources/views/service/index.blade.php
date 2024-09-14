@@ -5,9 +5,15 @@
 
         <!-- Hero Section -->
         <div class="relative bg-green-600 text-white text-center py-16 md:py-24 overflow-hidden rounded-lg">
-            <div class="absolute inset-0 z-0">
+            <!-- 1267 * 200-->
+            <div class="absolute hidden md:flex lg:flex inset-0 z-0">
                 <!-- Optional: Add a background image with opacity -->
-                <img src="{{ asset('img/hero/Our Services.png') }}" alt="Background" class="w-full h-full opacity-90" />
+                <img src="{{ asset('img/hero/lg_service.png') }}" alt="Background" class="w-full h-full opacity-90" />
+            </div>
+            <!-- 490 * 165-->
+            <div class="absolute md:hidden lg:hidden inset-0 z-0">
+                <!-- Optional: Add a background image with opacity -->
+                <img src="{{ asset('img/hero/sm_service.png') }}" alt="Background" class="w-full h-full object-cover opacity-100" />
             </div>
         </div>
 
@@ -28,7 +34,7 @@
             <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Service 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-[2px] md:shadow-[5px] lg:md:shadow-[5px] overflow-hidden">
                     <img src="{{ asset('img/services/prescription.png') }}" alt="Prescription Fulfillment"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -40,7 +46,7 @@
                 </div>
 
                 <!-- Service 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-[2px] md:shadow-[5px] lg:md:shadow-[5px] overflow-hidden">
                     <img src="{{ asset('img/services/consult.png') }}" alt="Online Doctor Consultation"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -52,7 +58,7 @@
                 </div>
 
                 <!-- Service 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-[2px] md:shadow-[5px] lg:md:shadow-[5px] overflow-hidden">
                     <img src="{{ asset('img/services/products.png') }}" alt="Wellness Products"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -64,7 +70,7 @@
                 </div>
 
                 <!-- Service 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-[2px] md:shadow-[5px] lg:md:shadow-[5px] overflow-hidden">
                     <img src="{{ asset('img/services/devices.jpg') }}" alt="Home Healthcare Devices"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -76,7 +82,7 @@
                 </div>
 
                 <!-- Service 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-[2px] md:shadow-[5px] lg:md:shadow-[5px] overflow-hidden">
                     <img src="{{ asset('img/services/vaccine.jpg') }}" alt="Immunizations and Vaccinations"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -88,7 +94,7 @@
                 </div>
 
                 <!-- Service 6 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-[2px] md:shadow-[5px] lg:md:shadow-[5px] overflow-hidden">
                     <img src="{{ asset('img/services/Health screening.jpg') }}" alt="Health Screenings"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
