@@ -13,6 +13,6 @@ class DashboardController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('dashboard',['products' => $products]);
+        return view('admin.dashboard.index',['products' => $products]);
     }
 }

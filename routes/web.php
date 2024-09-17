@@ -3,20 +3,25 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Client Routes: Accessible to all users
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::redirect('/dashboard', '/admin/product')->name('dashboard');
+});
+
+// Guest Routes: Accessible to all users
 Route::prefix('guest')->name('guest.')->group(function () {
     Route::get('/product', [ProductController::class, 'index'])->name('product.index');
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 });
 
-// Admin Routes: Requires authentication and admin access
-Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+// Admin Product Routes: Requires authentication and admin access
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/product', [ProductController::class, 'adminIndex'])->name('product.index');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/product', [ProductController::class, 'store'])->name('product.store');
@@ -25,6 +30,18 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('/product/{id}', [ProductController::class, 'adminShow'])->name('product.show');
 });
+
+// Admin Category Routes: Requires authentication and admin access
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/category', [CategoryController::class, 'adminIndex'])->name('category.index');
+    Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+    Route::get('/category/{id}', [CategoryController::class, 'adminShow'])->name('category.show');
+});
+
 
 
 Route::get('/about', function () {
@@ -43,9 +60,9 @@ Route::post('/contact', function () {
 })->name('guest.contact.submit');
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+//Route::get('/dashboard', [DashboardController::class, 'index'])
+//    ->middleware(['auth', 'verified'])
+//    ->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -54,4 +71,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

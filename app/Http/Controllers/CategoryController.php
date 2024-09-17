@@ -14,6 +14,11 @@ class CategoryController extends Controller
     {
         //
     }
+    public function adminIndex()
+    {
+        $categories = Category::all();
+        return view('admin.category.index',['categories' => $categories]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -35,6 +40,11 @@ class CategoryController extends Controller
      * Display the specified resource.
      */
     public function show(Category $category)
+    {
+        //
+    }
+
+    public function adminShow(Category $category)
     {
         //
     }
