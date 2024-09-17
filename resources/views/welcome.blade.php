@@ -16,7 +16,7 @@
                     </div>
                     <p class="text-sm md:text-xl lg:text-xl text-gray-700 mb-4">Your Trusted Partner in Quality</p>
                     <p class="text-sm md:text-lg lg:text-lg text-gray-600 mb-6">LifeLine offers top-tier products that stand out in the market</p>
-                    <a href="#"
+                    <a href="{{ route('guest.product.index')}}"
                         class="inline-block text-md md:text-2xl lg:text-2xl bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700">
                         Shop Now
                     </a>
