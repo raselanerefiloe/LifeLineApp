@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('usertype')->default('Guest'); // Usertype field (Admin, Guest, Client)
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

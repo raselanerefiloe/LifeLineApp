@@ -36,7 +36,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $product->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $product->description }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${{ number_format($product->price, 2) }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">R{{ number_format($product->price, 2) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $product->quantity }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('admin.product.show', $product->id) }}" class="text-blue-600 hover:text-blue-900">View</a>
