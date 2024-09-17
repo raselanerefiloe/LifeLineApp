@@ -17,8 +17,25 @@
                 </a>
             </div>
             <div class="flex space-x-4">
-                <a href="#" class="text-gray-600 hover:text-gray-900">Login</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900">Register</a>
+                <a href="#" class="md:hidden lg:hidden text-gray-600 hover:text-gray-900">
+                    <i class="fa-regular fa-user"></i> <!-- User Icon -->
+                </a>
+
+                <a href="#" class="hidden md:flex lg:flex text-gray-600 hover:text-gray-900">Login</a>
+                <a href="#" class="hidden md:flex lg:flex text-gray-600 hover:text-gray-900">Register</a>
+                 <!-- Wishlist and Cart Icons -->
+                 <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <i class="fa-regular fa-heart"></i> <!-- Heart Icon -->
+                </a>
+                <!-- Cart Icon with Badge -->
+                <a href="#" class="relative text-gray-600 hover:text-gray-900">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <!-- Badge -->
+                    <span
+                        class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-2 -translate-y-2">
+                        3
+                    </span>
+                </a>
             </div>
         </div>
         <div class="flex justify-between items-center">
