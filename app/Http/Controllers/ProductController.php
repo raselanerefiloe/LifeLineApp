@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,7 +13,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product.index');
+        // Fetch all categories from the database
+        $categories = Category::all();
+         // Fetch all products from the database
+         $products = Product::all();
+        return view('product.index',['products' => $products, 'categories' => $categories]);
     }
 
     public function adminIndex()

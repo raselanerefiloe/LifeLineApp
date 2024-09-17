@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-sm md:text-3xl lg:text-3xl font-bold text-green-600">Shop By Category</h2>
-            <a href="{{ route('guest.category.index') }}" class="text-gray-500 hover:underline text-[8px] md:text-xl lg:text-xl">View All <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="{{ route('category.index') }}" class="text-gray-500 hover:underline text-[8px] md:text-xl lg:text-xl">View All <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">

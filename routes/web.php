@@ -7,18 +7,16 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[WelcomeController::class, 'index'])->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/dashboard', '/admin/product')->name('dashboard');
 });
 
 // Guest Routes: Accessible to all users
-Route::prefix('guest')->name('guest.')->group(function () {
-    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
-    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
-});
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Admin Product Routes: Requires authentication and admin access
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
@@ -46,18 +44,18 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 Route::get('/about', function () {
     return view('about.index');
-})->name('guest.about');
+})->name('about');
 
 Route::get('/service', function () {
     return view('service.index');
-})->name('guest.service');
+})->name('service');
 
 Route::get('/contact', function () {
     return view('contact.index');
-})->name('guest.contact');
+})->name('contact');
 Route::post('/contact', function () {
     return view('contact.index');
-})->name('guest.contact.submit');
+})->name('contact.submit');
 
 
 //Route::get('/dashboard', [DashboardController::class, 'index'])
