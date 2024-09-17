@@ -17,12 +17,12 @@
                 </a>
             </div>
             <div class="flex space-x-4">
-                <a href="#" class="md:hidden lg:hidden text-gray-600 hover:text-gray-900">
+                <a href="{{ route('login')}}" class="md:hidden lg:hidden text-gray-600 hover:text-gray-900">
                     <i class="fa-regular fa-user"></i> <!-- User Icon -->
                 </a>
 
-                <a href="#" class="hidden md:flex lg:flex text-gray-600 hover:text-gray-900">Login</a>
-                <a href="#" class="hidden md:flex lg:flex text-gray-600 hover:text-gray-900">Register</a>
+                <a href="{{ route('login')}}" class="hidden md:flex lg:flex text-gray-600 hover:text-gray-900">Login</a>
+                <a href="{{ route('register')}}" class="hidden md:flex lg:flex text-gray-600 hover:text-gray-900">Register</a>
                 <!-- Wishlist Icon with Badge -->
                 <a href="#" class="relative text-gray-600 hover:text-gray-900">
                     <i class="fa-regular fa-heart"></i>
