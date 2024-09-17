@@ -3,12 +3,11 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/',[WelcomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/dashboard', '/admin/product')->name('dashboard');
@@ -16,6 +15,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 // Guest Routes: Accessible to all users
 Route::prefix('guest')->name('guest.')->group(function () {
+    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/product', [ProductController::class, 'index'])->name('product.index');
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 });
