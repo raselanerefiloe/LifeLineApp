@@ -15,7 +15,7 @@
                 <!-- Contact Form -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <h2 class="text-2xl font-semibold text-green-600 mb-6">Get in Touch</h2>
-                    <form action="{{ route('guest.contact.submit') }}" method="POST">
+                    <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
                         <!-- Name Field -->
                         <div class="mb-4">

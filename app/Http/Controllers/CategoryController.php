@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CategoryController extends Controller
 {
@@ -17,7 +18,7 @@ class CategoryController extends Controller
     public function adminIndex()
     {
         $categories = Category::all();
-        return view('admin.category.index',['categories' => $categories]);
+        return view('admin.category.index', ['categories' => $categories]);
     }
 
     /**
@@ -25,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -33,7 +34,27 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Upload the image to Cloudinary
+        $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath(), [
+            'folder' => 'lifeline/categories', // Optional folder name in Cloudinary
+        ])->getSecurePath();
+
+        // Save the category to the database
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->image_url = $uploadedFileUrl;
+        $category->save();
+
+        // Redirect or respond with success
+        return redirect()->route('admin.category.index')->with('success', 'Category created successfully.');
+
+
     }
 
     /**

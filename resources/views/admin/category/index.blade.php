@@ -11,6 +11,17 @@
         </div>
     </x-slot>
 
+    <!-- Success Message -->
+    @if (session('success'))
+        <div id='success-message' class="max-w-2xl mx-auto mt-2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="closeAlert()">
+                <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.586 7.066 4.652a1 1 0 10-1.414 1.414L8.586 10l-2.934 2.934a1 1 0 101.414 1.414L10 12.414l2.934 2.934a1 1 0 101.414-1.414L11.414 10l2.934-2.934z"/></svg>
+            </span>
+        </div>
+    @endif
+
     <!-- Category Section -->
     <section class="bg-gray-100 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,4 +39,9 @@
             </div>
         </div>
     </section>
+    <script>
+        function closeAlert() {
+            document.getElementById('success-message').style.display = 'none';
+        }
+    </script>
 </x-app-layout>
