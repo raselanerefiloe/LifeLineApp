@@ -65,9 +65,27 @@ class CategoryController extends Controller
         //
     }
 
-    public function adminShow(Category $category)
+    public function adminShow($id)
     {
-        //
+        // Retrieve the category along with its related products
+        $category = Category::with('products')->findOrFail($id);
+
+        // Compute summary statistics
+        $products = $category->products;
+        $totalProducts = $products->count();
+        $averagePrice = $totalProducts > 0 ? $products->avg('price') : 0;
+        $highestPrice = $totalProducts > 0 ? $products->max('price') : 0;
+        $lowestPrice = $totalProducts > 0 ? $products->min('price') : 0;
+
+        // Pass data to the view
+        return view('admin.category.show', [
+            'category' => $category,
+            'products' => $products,
+            'totalProducts' => $totalProducts,
+            'averagePrice' => $averagePrice,
+            'highestPrice' => $highestPrice,
+            'lowestPrice' => $lowestPrice,
+        ]);
     }
 
     /**
@@ -89,8 +107,28 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
-    {
-        //
+    public function destroy($id)
+{
+    // Find the category by its ID
+    $category = Category::findOrFail($id);
+
+    // Check if the category has an image URL and delete it from Cloudinary
+    if ($category->image_url) {
+        // Extract the public ID from the image URL
+        $publicId = basename(parse_url($category->image_url, PHP_URL_PATH));
+
+        // Delete the image from Cloudinary
+        Cloudinary::destroy($publicId);
     }
+
+    // Optionally, handle related products here. For example:
+    // $category->products()->delete(); // Deletes related products
+
+    // Delete the category
+    $category->delete();
+
+    // Redirect back with a success message
+    return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully.');
+}
+
 }
