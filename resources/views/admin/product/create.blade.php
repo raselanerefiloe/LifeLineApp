@@ -11,7 +11,7 @@
     <section class="bg-gray-100 py-8">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white p-6 rounded-lg shadow-lg">
-                <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="productForm" action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Product Name Input -->
@@ -126,16 +126,49 @@
                         <!-- Default value should be null if not checked -->
                     </div>
 
-
                     <!-- Submit Button -->
                     <div class="mt-6">
-                        <button type="submit"
-                            class="bg-[#63C186] text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
-                            Add Product
+                        <button id="submitBtn" type="submit"
+                            class="bg-[#63C186] text-white px-4 py-2 rounded-md hover:bg-green-600 transition flex items-center justify-center">
+                            <span id="submitText">Add Product</span>
+                            <!-- Spinner (initially hidden) -->
+                            <svg id="spinner" class="hidden animate-spin h-5 w-5 ml-2 text-white"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.961 7.961 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </section>
+
+    <!-- Add JavaScript to handle the loading state -->
+    <script>
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            var submitBtn = document.getElementById('submitBtn');
+            var submitText = document.getElementById('submitText');
+            var spinner = document.getElementById('spinner');
+
+            // Disable the submit button
+            submitBtn.disabled = true;
+            
+            // Change the button text to show saving state and display the spinner
+            submitText.textContent = 'Saving...';
+            spinner.classList.remove('hidden'); // Show spinner
+        });
+    </script>
+
+    <!-- Tailwind CSS Spinner animation -->
+    <style>
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
 </x-app-layout>
