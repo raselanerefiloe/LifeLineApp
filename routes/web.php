@@ -10,6 +10,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\WishListController;
+use App\Http\Controllers\WishListItemController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
@@ -75,6 +77,12 @@ Route::resource('orders', OrderController::class);
 
 // OrderItem routes
 Route::resource('order_items', OrderItemController::class);
+
+// WishList routes
+Route::resource('wish_list', WishListController::class);
+
+// WishListItem routes
+Route::resource('wish_list_items', WishListItemController::class);
 
 //Route::get('/dashboard', [DashboardController::class, 'index'])
 //    ->middleware(['auth', 'verified'])
