@@ -61,7 +61,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($products as $product)
+                                @forelse ($products as $product)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
@@ -80,7 +80,7 @@
                                                 class="text-blue-600 hover:text-blue-900">View</a>
                                             <a href="{{ route('admin.product.edit', $product->id) }}"
                                                 class="ml-4 text-yellow-600 hover:text-yellow-900">Edit</a>
-                                                <x-confirm-delete 
+                                            <x-confirm-delete 
                                                 :title="'Delete Product'"
                                                 :message="'Are you sure you want to delete this product?'"
                                                 :action="route('admin.product.destroy', $product->id)"
@@ -88,7 +88,13 @@
                                             />
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                            No products found. <a href="{{ route('admin.product.create') }}" class="text-blue-600 hover:text-blue-900">Get started by adding a product.</a>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
