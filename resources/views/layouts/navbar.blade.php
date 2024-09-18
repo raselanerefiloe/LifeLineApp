@@ -1,4 +1,4 @@
-<nav class="bg-white shadow">
+<nav class="bg-white shadow" x-data="{ cartOpen: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
             <!-- Top Bar -->
@@ -17,7 +17,7 @@
                 </a>
             </div>
             <div class="flex space-x-4">
-                <!-- Show User Icon on mobile devices if not logged in-->
+                <!-- Show User Icon on mobile devices if not logged in -->
                 @guest
                     <a href="{{ route('login') }}" class="md:hidden lg:hidden text-gray-600 hover:text-gray-900">
                         <i class="fa-regular fa-user"></i>
@@ -87,15 +87,74 @@
                     </span>
                 </a>
 
-                <!-- Cart Icon with Badge -->
-                <a href="#" class="relative text-gray-600 hover:text-gray-900">
+                <!-- Cart Icon with Toggle -->
+                <button id="cartButton" class="relative text-gray-600 hover:text-gray-900">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <!-- Badge -->
-                    <span
-                        class="absolute top-[-10px] right-[-10px] inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                        3
-                    </span>
-                </a>
+                    @if ($cartItemCount > 0)
+                        <span id="cartBadge"
+                            class="absolute top-[-10px] right-[-10px] inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                            {{ $cartItemCount }}
+                        </span>
+                    @endif
+                </button>
+
+                <!-- Cart Window Component -->
+                <div id="cartPopup"
+                    class="fixed top-0 right-0 mt-16 w-80 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50">
+                    <div class="p-4">
+                        @if ($cartItemCount === 0 || $cartId === 0 || $createdAt === null)
+                            <p class="text-sm text-gray-500">Your cart is empty.</p>
+                        @else
+                            <h3 class="text-lg font-semibold">Cart Items</h3>
+                            @foreach ($cartItems as $item)
+                                <div class="flex items-center justify-between my-2 p-2 border-b border-gray-200">
+                                    <img src="{{ asset($item->product->image_url) }}" alt="{{ $item->product->name }}"
+                                        class="w-12 h-12 object-cover rounded">
+                                    <div class="flex-1 ml-2">
+                                        <div class="text-sm font-semibold">{{ $item->product->name }}</div>
+                                        <div class="text-sm text-gray-500">
+                                            R{{ number_format($item->product->price, 2) }}</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-gray-600 hover:text-gray-900"
+                                            onclick="decrementItem({{ $item->id }})">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <span>{{ $item->quantity }}</span>
+                                        <button class="text-gray-600 hover:text-gray-900"
+                                            onclick="incrementItem({{ $item->id }})">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <div class="mt-4 font-semibold">
+                                Total: R{{ number_format($total, 2) }}
+                            </div>
+                            <!-- Place Order Button -->
+                            <div class="mt-4">
+                                <a href="{{ route('checkout') }}"
+                                    class="inline-block w-full text-center text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg">
+                                    Place Order
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <script>
+                    function incrementItem(itemId) {
+                        // Logic to increment item quantity
+                        console.log('Increment item:', itemId);
+                    }
+
+                    function decrementItem(itemId) {
+                        // Logic to decrement item quantity
+                        console.log('Decrement item:', itemId);
+                    }
+                </script>
+
             </div>
         </div>
         <div class="flex justify-between items-center">
@@ -156,55 +215,23 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Mobile Menu Button Toggle
-        const menuButton = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        const cartButton = document.getElementById('cartButton');
+        const cartPopup = document.getElementById('cartPopup');
 
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Close mobile menu if clicking outside
-        document.addEventListener('click', function(event) {
-            if (mobileMenu && !mobileMenu.contains(event.target) && !menuButton.contains(event
-                .target)) {
-                mobileMenu.classList.add('hidden');
+        // Toggle the visibility of the cart popup
+        cartButton.addEventListener('click', function() {
+            if (cartPopup.classList.contains('hidden')) {
+                cartPopup.classList.remove('hidden');
+            } else {
+                cartPopup.classList.add('hidden');
             }
         });
-    });
 
-    // JavaScript for mobile and desktop user menu toggles
-    document.getElementById('mobile-user-menu-button')?.addEventListener('click', function() {
-        const menu = document.getElementById('mobile-user-menu');
-        menu.classList.toggle('hidden');
-    });
-
-    document.getElementById('desktop-user-menu-button')?.addEventListener('click', function() {
-        const menu = document.getElementById('desktop-user-menu');
-        menu.classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', function(event) {
-        const mobileUserMenu = document.getElementById('mobile-user-menu');
-        const desktopUserMenu = document.getElementById('desktop-user-menu');
-        const mobileUserMenuButton = document.getElementById('mobile-user-menu-button');
-        const desktopUserMenuButton = document.getElementById('desktop-user-menu-button');
-
-        if (mobileUserMenu && !mobileUserMenu.contains(event.target) && !mobileUserMenuButton.contains(event
-                .target)) {
-            mobileUserMenu.classList.add('hidden');
-        }
-
-        if (desktopUserMenu && !desktopUserMenu.contains(event.target) && !desktopUserMenuButton.contains(event
-                .target)) {
-            desktopUserMenu.classList.add('hidden');
-        }
-    });
-
-    document.getElementById('menu-btn')?.addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
+        // Close the cart popup if clicked outside of it
+        document.addEventListener('click', function(event) {
+            if (!cartButton.contains(event.target) && !cartPopup.contains(event.target)) {
+                cartPopup.classList.add('hidden');
+            }
+        });
     });
 </script>

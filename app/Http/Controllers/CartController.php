@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 class CartController extends Controller
 {
     /**
@@ -64,7 +65,7 @@ class CartController extends Controller
     public function edit(Cart $cart)
     {
         // Redirect to the index of CartController
-        return redirect()->route('carts.index'); 
+        return redirect()->route('carts.index');
     }
 
     /**
@@ -103,4 +104,44 @@ class CartController extends Controller
         $cart->delete();
 
         return redirect()->route('carts.index')->with('success', 'Cart deleted successfully.');
-    }}
+    }
+
+    /**
+     * Add a product to the cart.
+     */
+    public function addProduct(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Fetch the product and user information
+        $product = Product::findOrFail($request->input('product_id'));
+        $userId = Auth::id();
+
+        // Fetch or create a cart for the user
+        $cart = Cart::firstOrCreate(['user_id' => $userId]);
+
+        // Check if the product already exists in the cart
+        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+
+        if ($cartItem) {
+            // Update the quantity if the product is already in the cart
+            $cartItem->quantity += $request->input('quantity');
+            $cartItem->save();
+        } else {
+            // Add a new item to the cart
+            $cart->items()->create([
+                'product_id' => $product->id,
+                'quantity' => $request->input('quantity'),
+            ]);
+        }
+
+        // Update the cart total
+        $cart->updateTotal();
+
+        return response()->json(['success' => true, 'message' => 'Product added to cart!']);
+    }
+}

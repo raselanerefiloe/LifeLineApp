@@ -21,8 +21,16 @@ class Cart extends Model
     }
 
     // Define the relationship between Cart and CartItem
-    public function cartItems()
+    public function items()
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function updateTotal()
+    {
+        $this->total = $this->items->sum(function($item) {
+            return $item->quantity * $item->product->price;
+        });
+        $this->save();
     }
 }

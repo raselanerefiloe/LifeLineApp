@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\WishListController;
 use App\Http\Controllers\WishListItemController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
@@ -68,6 +69,7 @@ Route::post('/contact', function () {
 
 // Cart routes
 Route::resource('carts', CartController::class);
+Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
 
 // CartItem routes
 Route::resource('cart_items', CartItemController::class);
@@ -83,6 +85,8 @@ Route::resource('wish_list', WishListController::class);
 
 // WishListItem routes
 Route::resource('wish_list_items', WishListItemController::class);
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 
 //Route::get('/dashboard', [DashboardController::class, 'index'])
 //    ->middleware(['auth', 'verified'])
