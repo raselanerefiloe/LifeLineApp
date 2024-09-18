@@ -153,7 +153,7 @@ class ProductController extends Controller
         if (!$product) {
             abort(404, 'Product not found');
         }
-        
+
         // Validate the incoming request data
         try {
             $request->validate([
@@ -236,11 +236,45 @@ class ProductController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        return "Product Delete";
+        // Find the product by ID
+        $product = Product::findOrFail($id);
+
+        // Delete the product image from Cloudinary if it exists
+        if ($product->image_url) {
+            try {
+                // Extract the public ID from the URL
+                $publicId = $this->extractPublicId($product->image_url);
+                Cloudinary::destroy($publicId);
+                \Log::info('Deleted Cloudinary Image:', ['public_id' => $publicId]);
+            } catch (\Exception $e) {
+                \Log::error('Image Deletion Error:', ['message' => $e->getMessage()]);
+            }
+        }
+
+        // Delete the product from the database
+        $product->delete();
+
+        // Redirect back to the product index page with a success message
+        return redirect()->route('admin.product.index')
+            ->with('success', 'Product deleted successfully.');
     }
+
+    // Helper function to extract the public ID from the URL
+    private function extractPublicId($url)
+    {
+        // Assuming the URL is of the form 'https://res.cloudinary.com/{cloud_name}/image/upload/{public_id}.{format}'
+        $path = parse_url($url, PHP_URL_PATH);
+        $segments = explode('/', trim($path, '/'));
+        // The public ID is the last segment before the file extension
+        return basename($segments[count($segments) - 1], '.' . $this->getExtension($url));
+    }
+
+    // Helper function to get the file extension from the URL
+    private function getExtension($url)
+    {
+        return pathinfo($url, PATHINFO_EXTENSION);
+    }
+
 }
