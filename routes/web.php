@@ -6,6 +6,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
@@ -57,6 +61,20 @@ Route::post('/contact', function () {
     return view('contact.index');
 })->name('contact.submit');
 
+
+
+
+// Cart routes
+Route::resource('carts', CartController::class);
+
+// CartItem routes
+Route::resource('cart_items', CartItemController::class);
+
+// Order routes
+Route::resource('orders', OrderController::class);
+
+// OrderItem routes
+Route::resource('order_items', OrderItemController::class);
 
 //Route::get('/dashboard', [DashboardController::class, 'index'])
 //    ->middleware(['auth', 'verified'])
