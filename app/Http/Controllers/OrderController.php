@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    /**
+/**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // Fetch orders for the authenticated user
+        $orders = Order::where('user_id', Auth::id())->get();
+        return view('orders.index', compact('orders'));
     }
 
     /**
@@ -20,7 +23,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        // Redirect to the index of CartController
+        return redirect()->route('carts.index');
     }
 
     /**
@@ -28,7 +32,18 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'total' => 'required|numeric|min:0',
+        ]);
+
+        // Create a new order for the authenticated user
+        $order = new Order();
+        $order->user_id = Auth::id();
+        $order->total = $request->input('total');
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
 
     /**
@@ -36,7 +51,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        // Redirect to the index of OrderController
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -44,7 +60,8 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        // Redirect to the index of OrderController
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -52,7 +69,21 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        // Ensure the order belongs to the authenticated user
+        if ($order->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Validate the request
+        $request->validate([
+            'total' => 'required|numeric|min:0',
+        ]);
+
+        // Update the order
+        $order->total = $request->input('total');
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 
     /**
@@ -60,6 +91,15 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        // Ensure the order belongs to the authenticated user
+        if ($order->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Delete the order
+        $order->delete();
+
+        return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
     }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WishList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WishListController extends Controller
 {
@@ -12,7 +13,9 @@ class WishListController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch wish lists for the authenticated user
+        $wishLists = WishList::where('user_id', Auth::id())->get();
+        return view('wish_lists.index', compact('wishLists'));
     }
 
     /**
@@ -20,7 +23,7 @@ class WishListController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->route('wish_list.index');
     }
 
     /**
@@ -28,7 +31,18 @@ class WishListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'total' => 'required|numeric|min:0',
+        ]);
+
+        // Create a new wish list for the authenticated user
+        $wishList = new WishList();
+        $wishList->user_id = Auth::id();
+        $wishList->total = $request->input('total');
+        $wishList->save();
+
+        return redirect()->route('wish_lists.index')->with('success', 'Wish List created successfully.');
     }
 
     /**
@@ -36,7 +50,7 @@ class WishListController extends Controller
      */
     public function show(WishList $wishList)
     {
-        //
+        return redirect()->route('wish_list.index');
     }
 
     /**
@@ -44,7 +58,7 @@ class WishListController extends Controller
      */
     public function edit(WishList $wishList)
     {
-        //
+        return redirect()->route('wish_list.index');
     }
 
     /**
@@ -52,7 +66,21 @@ class WishListController extends Controller
      */
     public function update(Request $request, WishList $wishList)
     {
-        //
+        // Ensure the wish list belongs to the authenticated user
+        if ($wishList->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Validate the request
+        $request->validate([
+            'total' => 'required|numeric|min:0',
+        ]);
+
+        // Update the wish list
+        $wishList->total = $request->input('total');
+        $wishList->save();
+
+        return redirect()->route('wish_lists.index')->with('success', 'Wish List updated successfully.');
     }
 
     /**
@@ -60,6 +88,14 @@ class WishListController extends Controller
      */
     public function destroy(WishList $wishList)
     {
-        //
+        // Ensure the wish list belongs to the authenticated user
+        if ($wishList->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Delete the wish list
+        $wishList->delete();
+
+        return redirect()->route('wish_lists.index')->with('success', 'Wish List deleted successfully.');
     }
 }

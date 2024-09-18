@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
 {
-    /**
+        /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // Redirect to the index of OrderController
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -20,7 +21,7 @@ class OrderItemController extends Controller
      */
     public function create()
     {
-        //
+        return view('order_items.create');
     }
 
     /**
@@ -28,7 +29,23 @@ class OrderItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        // Create a new order item
+        OrderItem::create([
+            'order_id' => $request->input('order_id'),
+            'product_id' => $request->input('product_id'),
+            'quantity' => $request->input('quantity'),
+            'price' => $request->input('price'),
+        ]);
+
+        return redirect()->route('orders.index')->with('success', 'Order item created successfully.');
     }
 
     /**
@@ -36,7 +53,8 @@ class OrderItemController extends Controller
      */
     public function show(OrderItem $orderItem)
     {
-        //
+        // Redirect to the index of OrderController
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -44,7 +62,8 @@ class OrderItemController extends Controller
      */
     public function edit(OrderItem $orderItem)
     {
-        //
+        // Redirect to the index of OrderController
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -52,7 +71,19 @@ class OrderItemController extends Controller
      */
     public function update(Request $request, OrderItem $orderItem)
     {
-        //
+        // Validate the request
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        // Update the order item
+        $orderItem->update([
+            'quantity' => $request->input('quantity'),
+            'price' => $request->input('price'),
+        ]);
+
+        return redirect()->route('orders.index')->with('success', 'Order item updated successfully.');
     }
 
     /**
@@ -60,6 +91,8 @@ class OrderItemController extends Controller
      */
     public function destroy(OrderItem $orderItem)
     {
-        //
-    }
-}
+        // Delete the order item
+        $orderItem->delete();
+
+        return redirect()->route('orders.index')->with('success', 'Order item deleted successfully.');
+    }}
