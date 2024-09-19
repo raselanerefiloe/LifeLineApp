@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
@@ -143,5 +144,78 @@ class CartController extends Controller
         $cart->updateTotal();
 
         return response()->json(['success' => true, 'message' => 'Product added to cart!']);
+    }
+
+
+    public function increment(Request $request)
+    {
+        $request->validate([
+            'item_id' => 'required|integer|exists:cart_items,id',
+        ]);
+
+        $cartItem = CartItem::findOrFail($request->input('item_id'));
+        $cartItem->quantity++;
+        $cartItem->save();
+
+        // Update the cart total
+        $cartItem->cart->updateTotal();
+
+        return response()->json([
+            'success' => true,
+            'updatedCart' => $cartItem->cart->items, // Return updated items
+            'cartItemCount' => $cartItem->cart->items->count(),
+            'total' => $cartItem->cart->total,
+        ]);
+    }
+
+    public function decrement(Request $request)
+    {
+        $request->validate([
+            'item_id' => 'required|integer|exists:cart_items,id',
+        ]);
+
+        $cartItem = CartItem::findOrFail($request->input('item_id'));
+
+        if ($cartItem->quantity > 1) {
+            $cartItem->quantity--;
+            $cartItem->save();
+        } else {
+            $cartItem->delete();
+        }
+
+        // Update the cart total
+        $cartItem->cart->updateTotal();
+
+        return response()->json([
+            'success' => true,
+            'updatedCart' => $cartItem->cart->items, // Return updated items
+            'cartItemCount' => $cartItem->cart->items->count(),
+            'total' => $cartItem->cart->total,
+        ]);
+    }
+    public function delete(Request $request)
+    {
+        $request->validate([
+            'item_id' => 'required|integer|exists:cart_items,id',
+        ]);
+
+        $cartItem = CartItem::findOrFail($request->input('item_id'));
+        $cart = $cartItem->cart; // Get the cart associated with the item
+        $cartItem->delete();
+
+        // Update the cart total
+        $cart->updateTotal();
+
+        // Fetch updated cart items
+        $updatedCartItems = $cart->items; // Assuming `items` is a relationship on `Cart`
+        $cartItemCount = $updatedCartItems->count();
+        $total = $cart->total;
+
+        return response()->json([
+            'success' => true,
+            'updatedCart' => $updatedCartItems,
+            'cartItemCount' => $cartItemCount,
+            'total' => $total,
+        ]);
     }
 }

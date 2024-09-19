@@ -8,15 +8,18 @@
                 <!-- Main Text Content -->
                 <div class="bg-[#ACCF46] p-6 rounded-lg shadow-md mb-8">
                     <div class="flex gap-4">
-                        <h2 class="text-[4px] md:text-xl lg:text-xl font-bold text-green-600 mb-4 bg-white py-2 px-2 inline-block rounded-lg">
+                        <h2
+                            class="text-[4px] md:text-xl lg:text-xl font-bold text-green-600 mb-4 bg-white py-2 px-2 inline-block rounded-lg">
                             4.9
                             <i class="fa-solid fa-star text-[4px] md:text-2xl lg:text-2xl" style="color: #FFD43B;"></i>
                         </h2>
-                        <h3 class="text-sm md:text-2xl lg:text-2xl font-semibold mb-2">Top Pharmaceutical Industry Supplier</h3>
+                        <h3 class="text-sm md:text-2xl lg:text-2xl font-semibold mb-2">Top Pharmaceutical Industry
+                            Supplier</h3>
                     </div>
                     <p class="text-sm md:text-xl lg:text-xl text-gray-700 mb-4">Your Trusted Partner in Quality</p>
-                    <p class="text-sm md:text-lg lg:text-lg text-gray-600 mb-6">LifeLine offers top-tier products that stand out in the market</p>
-                    <a href="{{ route('product.index')}}"
+                    <p class="text-sm md:text-lg lg:text-lg text-gray-600 mb-6">LifeLine offers top-tier products that
+                        stand out in the market</p>
+                    <a href="{{ route('product.index') }}"
                         class="inline-block text-md md:text-2xl lg:text-2xl bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700">
                         Shop Now
                     </a>
@@ -53,5 +56,35 @@
     @include('components.shop-by-category');
 
     @include('components.quality-promo');
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-semibold mb-4">Success!</h2>
+            <p id="successMessage" class="mb-4"></p>
+            <button id="closePopup"
+                class="mt-4 text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-lg">Ok</button>
+        </div>
+    </div>
+
+    <!-- Add this script to handle showing the popup -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successPopup = document.getElementById('successPopup');
+            const successMessage = document.getElementById('successMessage');
+            const closePopupButton = document.getElementById('closePopup');
+
+            @if (session('success_message'))
+                successMessage.textContent = "{{ session('success_message') }}";
+                successPopup.classList.remove('hidden');
+            @endif
+
+            if (closePopupButton) {
+                closePopupButton.addEventListener('click', function() {
+                    successPopup.classList.add('hidden');
+                });
+            }
+        });
+    </script>
 
 </x-guest-layout>

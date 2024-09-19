@@ -70,6 +70,9 @@ Route::post('/contact', function () {
 // Cart routes
 Route::resource('carts', CartController::class);
 Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add');
+Route::post('/cart/increment', [CartController::class, 'increment'])->name('cart.increment');
+Route::post('/cart/decrement', [CartController::class, 'decrement'])->name('cart.decrement');
+Route::post('/cart/delete', [CartController::class, 'delete'])->name('cart.delete');
 
 // CartItem routes
 Route::resource('cart_items', CartItemController::class);
@@ -86,7 +89,7 @@ Route::resource('wish_list', WishListController::class);
 // WishListItem routes
 Route::resource('wish_list_items', WishListItemController::class);
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 
 //Route::get('/dashboard', [DashboardController::class, 'index'])
 //    ->middleware(['auth', 'verified'])
