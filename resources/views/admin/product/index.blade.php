@@ -51,12 +51,6 @@
                                         Description</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Price</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Quantity</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Actions</th>
                                 </tr>
                             </thead>
@@ -71,10 +65,6 @@
                                             {{ $product->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $product->description }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            R{{ number_format($product->price, 2) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $product->quantity }}</td>
                                         <td class="flex space-x-4 px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('admin.product.show', $product->id) }}"
                                                 class="text-blue-600 hover:text-blue-900">View</a>
