@@ -48,13 +48,9 @@ class ProductController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
-                'price' => 'required|numeric|min:0',
-                'quantity' => 'required|integer|min:0',
-                //'category' => 'required|array',
+                'category' => 'required|array',
                 'category.*' => 'exists:categories,id',
                 'manufacturer' => 'required|string|max:255',
-                'expiry_date' => 'required|date|after:today',
-                'size' => 'required|string|max:50',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'inStock' => 'nullable|boolean'
             ]);
@@ -86,23 +82,28 @@ class ProductController extends Controller
             $product = new Product();
             $product->name = $request->name;
             $product->description = $request->description;
-            $product->price = $request->price;
-            $product->quantity = $request->quantity;
             $product->manufacturer = $request->manufacturer;
-            $product->expiry_date = $request->expiry_date;
-            $product->size = $request->size;
             $product->image_url = $uploadedFileUrl;
             $product->inStock = $request->has('inStock') ? true : false;
 
             // Save the product to the database
             $product->save();
 
-            // Attach the product to the selected categories
+
+            // Decode the category input
             $categories = $request->input('category');
+
+            // If $categories is a single string, split it into an array
+            if (is_array($categories)) {
+                $categories = array_map('trim', explode(',', $categories[0])); // Split and trim each ID
+            }
+
+            // Ensure all IDs are integers
+            $categories = array_map('intval', $categories);
+
+            // Attach the selected categories to the product
             if (is_array($categories)) {
                 $product->categories()->attach($categories);
-            } else {
-                $product->categories()->attach([$categories]);
             }
 
             \Log::info('Product created successfully:', ['product_id' => $product->id]);
@@ -243,16 +244,12 @@ class ProductController extends Controller
 
         // Delete the product image from Cloudinary if it exists
         if ($product->image_url) {
-            try {
-                // Extract the public ID from the image URL
-                $publicId = basename(parse_url($product->image_url, PHP_URL_PATH));
+            // Extract the public ID from the image URL
+            $publicId = basename(parse_url($product->image_url, PHP_URL_PATH));
 
-                // Delete the image from Cloudinary
-                Cloudinary::destroy($publicId);
-                \Log::info('Deleted Cloudinary Image:', ['public_id' => $publicId]);
-            } catch (\Exception $e) {
-                \Log::error('Image Deletion Error:', ['message' => $e->getMessage()]);
-            }
+            // Delete the image from Cloudinary
+            Cloudinary::destroy($publicId);
+
         }
 
         // Delete the product from the database

@@ -121,9 +121,6 @@ class CategoryController extends Controller
         Cloudinary::destroy($publicId);
     }
 
-    // Optionally, handle related products here. For example:
-    // $category->products()->delete(); // Deletes related products
-
     // Delete the category
     $category->delete();
 

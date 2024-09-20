@@ -36,30 +36,6 @@
                         @enderror
                     </div>
 
-                    <!-- Product Price Input -->
-                    <div class="mb-4">
-                        <label for="price" class="block text-gray-700 font-semibold">Price (R)</label>
-                        <input type="number" id="price" name="price"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter price"
-                            value="{{ old('price') }}" required>
-                        @error('price')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Product Quantity Input -->
-                    <div class="mb-4">
-                        <label for="quantity" class="block text-gray-700 font-semibold">Quantity</label>
-                        <input type="number" id="quantity" name="quantity"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter quantity"
-                            value="{{ old('quantity') }}" required>
-                        @error('quantity')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-
-
                     <!-- Alpine.js & Tailwind CSS Searchable Multiselect -->
                     <div x-data="dropdown()" class="mb-4 relative">
                         <label for="category" class="block text-gray-700 font-semibold">Categories</label>
@@ -98,7 +74,8 @@
                                 <template x-for="category in filteredCategories" :key="category.id">
                                     <div class="flex items-center p-2 hover:bg-gray-100 cursor-pointer">
                                         <input type="checkbox" :id="'category-' + category.id" :value="category.id"
-                                            x-model="selected" @click="toggleCategory(category); $event.stopPropagation()" class="mr-2">
+                                            x-model="selected"
+                                            @click="toggleCategory(category); $event.stopPropagation()" class="mr-2">
                                         <label :for="'category-' + category.id" x-text="category.name"
                                             class="cursor-pointer"></label>
                                     </div>
@@ -107,7 +84,8 @@
                         </div>
 
                         <!-- Hidden input to hold selected category values -->
-                        <input type="hidden" name="categories[]" :value="selected.map(category => category.id)">
+                        <input type="hidden" name="category[]"
+                            :value="selectedCategories.map(category => category.id)">
 
                         @error('categories')
                             <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
@@ -121,28 +99,6 @@
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                             placeholder="Enter manufacturer" value="{{ old('manufacturer') }}" required>
                         @error('manufacturer')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Expiry Date Input -->
-                    <div class="mb-4">
-                        <label for="expiry_date" class="block text-gray-700 font-semibold">Expiry Date</label>
-                        <input type="date" id="expiry_date" name="expiry_date"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                            value="{{ old('expiry_date') }}" required>
-                        @error('expiry_date')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Product Size Input -->
-                    <div class="mb-4">
-                        <label for="size" class="block text-gray-700 font-semibold">Size</label>
-                        <input type="text" id="size" name="size"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter size"
-                            value="{{ old('size') }}" required>
-                        @error('size')
                             <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                         @enderror
                     </div>
@@ -173,8 +129,8 @@
                             <!-- Spinner (initially hidden) -->
                             <svg id="spinner" class="hidden animate-spin h-5 w-5 ml-2 text-white"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10"
-                                    stroke="currentColor" stroke-width="4"></circle>
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor"
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.961 7.961 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                 </path>
