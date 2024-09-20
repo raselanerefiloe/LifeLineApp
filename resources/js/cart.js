@@ -78,6 +78,43 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
 
+    // Function to add item to cart
+    window.addToCart = function(productId) {
+        const quantity = 1;
+        fetch(routes.add, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: quantity
+            })
+        })
+        .then(response => {
+            if (response.status === 401) {
+                // User is not authenticated, redirect to login or show a message
+                alert('You need to log in to add products to your cart.');
+                window.location.href = '/login'; // Redirect to login
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                updateCartUI(data.updatedCart, data.cartItemCount, data.total);
+            } else {
+                alert(data.message || 'Failed to add product to cart.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+
+
     // Function to update the UI of the cart
     function updateCartUI(updatedCart, cartItemCount, total) {
         const cartItemsContainer = document.querySelector('#cartPopup .p-4');

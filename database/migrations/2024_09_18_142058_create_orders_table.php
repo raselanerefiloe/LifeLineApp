@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key referencing users table
             $table->decimal('total', 10, 2)->default(0.00); // Total column with decimal type
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

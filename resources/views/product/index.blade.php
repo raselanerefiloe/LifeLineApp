@@ -33,52 +33,6 @@
                         </select>
                     </div>
 
-                    <!-- Brand Filter -->
-                    <div class="mb-4">
-                        <label for="brand" class="block text-gray-600">Brand</label>
-                        <select id="brand" name="brand"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                            <option value="">All Brands</option>
-                            <option value="brand-a" {{ request('brand') == 'brand-a' ? 'selected' : '' }}>Brand A
-                            </option>
-                            <option value="brand-b" {{ request('brand') == 'brand-b' ? 'selected' : '' }}>Brand B
-                            </option>
-                            <option value="brand-c" {{ request('brand') == 'brand-c' ? 'selected' : '' }}>Brand C
-                            </option>
-                            <option value="brand-d" {{ request('brand') == 'brand-d' ? 'selected' : '' }}>Brand D
-                            </option>
-                        </select>
-                    </div>
-
-                    <!-- Price Range Filter -->
-                    <div class="mb-4">
-                        <label for="price" class="block text-gray-600">Price Range</label>
-                        <input type="range" id="price" name="price" min="0" max="500" step="10"
-                            value="{{ request('price') }}" class="mt-1 w-full">
-                        <div class="flex justify-between text-gray-600 text-sm mt-1">
-                            <span>R0</span>
-                            <span>R500+</span>
-                        </div>
-                    </div>
-
-                    <!-- Rating Filter -->
-                    <div class="mb-4">
-                        <label for="rating" class="block text-gray-600">Rating</label>
-                        <select id="rating" name="rating"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                            <option value="">All Ratings</option>
-                            <option value="1" {{ request('rating') == '1' ? 'selected' : '' }}>1 Star & Up
-                            </option>
-                            <option value="2" {{ request('rating') == '2' ? 'selected' : '' }}>2 Stars & Up
-                            </option>
-                            <option value="3" {{ request('rating') == '3' ? 'selected' : '' }}>3 Stars & Up
-                            </option>
-                            <option value="4" {{ request('rating') == '4' ? 'selected' : '' }}>4 Stars & Up
-                            </option>
-                            <option value="5" {{ request('rating') == '5' ? 'selected' : '' }}>5 Stars</option>
-                        </select>
-                    </div>
-
                     <!-- Availability Filter -->
                     <div class="mb-4">
                         <label for="availability" class="block text-gray-600">Availability</label>
@@ -91,33 +45,6 @@
                                 {{ request('availability') == 'out-of-stock' ? 'selected' : '' }}>Out of Stock</option>
                             <option value="pre-order" {{ request('availability') == 'pre-order' ? 'selected' : '' }}>
                                 Pre-order</option>
-                        </select>
-                    </div>
-
-                    <!-- Color Filter -->
-                    <div class="mb-4">
-                        <label for="color" class="block text-gray-600">Color</label>
-                        <select id="color" name="color"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                            <option value="">All Colors</option>
-                            <option value="red" {{ request('color') == 'red' ? 'selected' : '' }}>Red</option>
-                            <option value="blue" {{ request('color') == 'blue' ? 'selected' : '' }}>Blue</option>
-                            <option value="green" {{ request('color') == 'green' ? 'selected' : '' }}>Green</option>
-                            <option value="black" {{ request('color') == 'black' ? 'selected' : '' }}>Black</option>
-                        </select>
-                    </div>
-
-                    <!-- Size Filter -->
-                    <div class="mb-4">
-                        <label for="size" class="block text-gray-600">Size</label>
-                        <select id="size" name="size"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                            <option value="">All Sizes</option>
-                            <option value="small" {{ request('size') == 'small' ? 'selected' : '' }}>Small</option>
-                            <option value="medium" {{ request('size') == 'medium' ? 'selected' : '' }}>Medium</option>
-                            <option value="large" {{ request('size') == 'large' ? 'selected' : '' }}>Large</option>
-                            <option value="x-large" {{ request('size') == 'x-large' ? 'selected' : '' }}>X-Large
-                            </option>
                         </select>
                     </div>
 
@@ -180,34 +107,12 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function addToCart(productId) {
-            const quantity = 1;
-            fetch('/cart/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        quantity: quantity
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        // Optionally, update cart item count or other UI elements
-                    } else {
-                        alert('Failed to add product to cart.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    </script>
+<!-- Include JavaScript -->
+<script>
+    const routes = {
+        add: "{{ route('cart.add') }}"
+    };
+</script>
+@vite(['resources/js/cart.js'])
 
 </x-guest-layout>

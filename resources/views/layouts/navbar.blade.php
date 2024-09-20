@@ -163,6 +163,7 @@
 <!-- Include JavaScript -->
 <script>
     const routes = {
+        add: "{{ route('cart.add') }}",
         increment: "{{ route('cart.increment') }}",
         decrement: "{{ route('cart.decrement') }}",
         delete: "{{ route('cart.delete') }}"

@@ -112,6 +112,13 @@ class CartController extends Controller
      */
     public function addProduct(Request $request)
     {
+        // Check if the request expects JSON (AJAX) or not
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You need to log in to add products to your cart.',
+            ], 401); // 401 Unauthorized status code
+        }
         // Validate the request
         $request->validate([
             'product_id' => 'required|integer|exists:products,id',
@@ -143,7 +150,13 @@ class CartController extends Controller
         // Update the cart total
         $cart->updateTotal();
 
-        return response()->json(['success' => true, 'message' => 'Product added to cart!']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Product added to cart!',
+            'updatedCart' => $cart->items,
+            'cartItemCount' => $cart->items->count(),
+            'total' => $cart->total,
+        ]);
     }
 
 

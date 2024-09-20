@@ -25,4 +25,12 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+    public function deliveryAddress()
+    {
+        return $this->hasOne(DeliveryAddress::class);
+    }
+    public function orderPayment()
+    {
+        return $this->hasOne(OrderPayment::class);
+    }
 }
