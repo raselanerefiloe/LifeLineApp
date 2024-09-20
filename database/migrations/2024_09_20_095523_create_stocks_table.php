@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart_items', function (Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id')->constrained()->onDelete('cascade'); // Foreign key referencing carts table
             $table->foreignId('package_id')->constrained()->onDelete('cascade'); // Foreign key referencing packages table
-            $table->integer('quantity'); // Quantity of the package in the cart
-            $table->decimal('price', 10, 2); // Price of the package at the time of adding to cart
+            $table->string('sku')->unique(); // Unique Stock Keeping Unit
+            $table->integer('quantity'); // Quantity of this SKU in stock
+            $table->date('expiry_date')->nullable(); // Expiry date for this stock item
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cart_items');
+        Schema::dropIfExists('stocks');
     }
 };

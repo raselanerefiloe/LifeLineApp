@@ -12,7 +12,7 @@ class OrderItem extends Model
     // The attributes that are mass assignable.
     protected $fillable = [
         'order_id',
-        'product_id',
+        'package_id',
         'quantity',
         'price',
     ];
@@ -23,9 +23,9 @@ class OrderItem extends Model
         return $this->belongsTo(Order::class);
     }
 
-    // Define the relationship between OrderItem and Product
-    public function product()
+    // Define the relationship between OrderItem and Package
+    public function package()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Package::class);
     }
 }

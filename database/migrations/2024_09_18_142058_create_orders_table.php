@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key referencing users table
-            $table->decimal('total', 10, 2)->default(0.00); // Total column with decimal type
+            $table->decimal('total', 10, 2)->default(0.00); // // Total Price of the Order at the time of placing the order
             $table->string('status')->default('pending');
             $table->timestamps();
         });

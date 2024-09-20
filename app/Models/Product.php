@@ -14,12 +14,8 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'price',
-        'quantity',
         'image_url',
         'manufacturer',
-        'expiry_date',
-        'size',
         'inStock',
     ];
 
@@ -29,5 +25,9 @@ class Product extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_categories');
+    }
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
     }
 }

@@ -5,22 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CartItem extends Model
+class Stock extends Model
 {
     use HasFactory;
-
-    // The attributes that are mass assignable.
     protected $fillable = [
-        'cart_id',
         'package_id',
+        'sku',
         'quantity',
-        'price',
+        'expiry_date',
     ];
-
-    public function cart()
-    {
-        return $this->belongsTo(Cart::class);
-    }
 
     public function package()
     {

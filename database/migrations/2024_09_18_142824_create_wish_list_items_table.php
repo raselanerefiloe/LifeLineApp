@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('wish_list_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('wish_list_id')->constrained()->onDelete('cascade'); // Foreign key referencing wish_lists table
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key referencing products table
-            $table->integer('quantity'); // Quantity of the product in the wish list
+            $table->foreignId('package_id')->constrained()->onDelete('cascade'); // Foreign key referencing packages table
+            $table->integer('quantity'); // Quantity of the package in the wish list
             $table->timestamps();
         });
     }

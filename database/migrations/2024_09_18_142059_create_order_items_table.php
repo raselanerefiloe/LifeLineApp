@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Foreign key referencing orders table
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key referencing products table
-            $table->decimal('price', 10, 2); // Price column with decimal type
-            $table->integer('quantity'); // Quantity of the product in the order
+            $table->foreignId('package_id')->constrained()->onDelete('cascade'); // Foreign key referencing packages table
+            $table->decimal('price', 10, 2); // Price of the order at the time of placing the order
+            $table->integer('quantity'); // Quantity of the package in the order
             $table->timestamps();
         });
     }
