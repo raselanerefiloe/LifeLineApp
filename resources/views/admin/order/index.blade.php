@@ -56,23 +56,34 @@
                                 @forelse ($orders as $order)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {{ $order->order_id }}</td>
+                                            {{ $order->id }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $order->user->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <ul>
-                                                @foreach ($order->order_items as $item)
+                                                @foreach ($order->orderItems as $item)
                                                     <li class="flex items-center space-x-2">
-                                                        <img src="{{ $item->package->image_url }}" alt="{{ $item->package->product->name }}" class="h-12 w-12 object-cover rounded-md">
-                                                        <span>{{ $item->package->product->name }} (x{{ $item->quantity }}) - ${{ number_format($item->price, 2) }}</span>
+                                                        <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" class="h-12 w-12 object-cover rounded-md">
+                                                        <span>{{ $item->product->name }} ({{ $item->pack_size }}) - R{{ number_format($item->price, 2) }}</span>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            ${{ number_format($order->total, 2) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $order->status }}</td>
+                                            R{{ number_format($order->total, 2) }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                @if ($order->status === 'pending')
+                                                    <span class="text-yellow-500">Pending</span>
+                                                @elseif ($order->status === 'processing')
+                                                    <span class="text-blue-500">Processing</span>
+                                                @elseif ($order->status === 'on the way')
+                                                    <span class="text-green-500">On the Way</span>
+                                                @elseif ($order->status === 'completed')
+                                                    <span class="text-gray-500">Completed</span>
+                                                @else
+                                                    <span class="text-red-500">Unknown Status</span>
+                                                @endif
+                                            </td>
                                         <td class="flex space-x-4 px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('admin.order.show', $order->id) }}"
                                                 class="text-blue-600 hover:text-blue-900">View</a>

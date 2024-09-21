@@ -19,7 +19,8 @@ class OrderController extends Controller
     }
 
     public function adminIndex(){
-        $orders = Order::all();
+        $orders = Order::with('orderItems')->get();
+        \Log::info("Orders", ['orders' => $orders]);
         return view('admin.order.index', ['orders' => $orders]);
     }
 

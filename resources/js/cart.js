@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Function to add item to cart
-    window.addToCart = function(productId) {
-        const quantity = 1;
+    window.addToCart = function(productId, pack_size) {
+        console.log("Pack size.............: ",pack_size);
         fetch(routes.add, {
             method: 'POST',
             headers: {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 product_id: productId,
-                quantity: quantity
+                pack_size: pack_size,
             })
         })
         .then(response => {
@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update the UI of the cart
     function updateCartUI(updatedCart, cartItemCount, total) {
+        console.log("Updated Cart: ", updatedCart);
         const cartItemsContainer = document.querySelector('#cartPopup .p-4');
         cartItemsContainer.innerHTML = ''; // Clear existing items
 
@@ -127,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         updatedCart.forEach(item => {
+            console.log(item);
             const price = parseFloat(item.product.price);
             const itemDiv = document.createElement('div');
             itemDiv.className = 'flex items-center justify-between my-2 p-2 border-b border-gray-200';
@@ -140,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="text-gray-600 hover:text-gray-900" onclick="decrementItem(${item.id})">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <span>${item.quantity}</span>
+                    <span>${item.pack_size}</span>
                     <button class="text-gray-600 hover:text-gray-900" onclick="incrementItem(${item.id})">
                         <i class="fa-solid fa-plus"></i>
                     </button>

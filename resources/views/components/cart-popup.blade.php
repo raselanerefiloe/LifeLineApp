@@ -17,7 +17,7 @@
                         <button class="text-gray-600 hover:text-gray-900" onclick="decrementItem({{ $item->id }})">
                             <i class="fa-solid fa-minus"></i>
                         </button>
-                        <span>{{ $item->quantity }}</span>
+                        <span>{{ $item->pack_size }}</span>
                         <button class="text-gray-600 hover:text-gray-900" onclick="incrementItem({{ $item->id }})">
                             <i class="fa-solid fa-plus"></i>
                         </button>

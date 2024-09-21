@@ -84,7 +84,7 @@
                             <div
                                 class="absolute inset-0 flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 bg-gray-800 bg-opacity-50 transition-opacity duration-300">
                                 <!-- Add to Cart Icon -->
-                                <button onclick="addToCart({{ $product->id }})"
+                                <button onclick="addToCart({{ $product->id }}, '{{ $product->pack_size }}')"
                                     class="text-white text-3xl mb-4 mt-2 mr-4">
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
@@ -108,11 +108,6 @@
         </div>
     </div>
 <!-- Include JavaScript -->
-<script>
-    const routes = {
-        add: "{{ route('cart.add') }}"
-    };
-</script>
 @vite(['resources/js/cart.js'])
 
 </x-guest-layout>
