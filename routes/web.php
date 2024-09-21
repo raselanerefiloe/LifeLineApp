@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\WishListController;
 use App\Http\Controllers\WishListItemController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\StockController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
@@ -34,6 +36,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('/product/{id}', [ProductController::class, 'update'])->name('product.update');
     Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('/product/{id}', [ProductController::class, 'adminShow'])->name('product.show');
+    Route::get('/products/{id}/packages', [ProductController::class, 'getPackages'])->name('products.packages');
 });
 
 // Admin Category Routes: Requires authentication and admin access
@@ -73,6 +76,29 @@ Route::post('/cart/add', [CartController::class, 'addProduct'])->name('cart.add'
 Route::post('/cart/increment', [CartController::class, 'increment'])->name('cart.increment');
 Route::post('/cart/decrement', [CartController::class, 'decrement'])->name('cart.decrement');
 Route::post('/cart/delete', [CartController::class, 'delete'])->name('cart.delete');
+
+// Order routes
+Route::resource('orders', OrderController::class);
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/order', [OrderController::class, 'adminIndex'])->name('order.index');
+    Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
+    Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
+    Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
+    Route::get('/order/{id}', [OrderController::class, 'adminShow'])->name('order.show');
+});
+
+// Stock routes
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/stock', [StockController::class, 'adminIndex'])->name('stock.index');
+    Route::get('/stock/create', [StockController::class, 'create'])->name('stock.create');
+    Route::post('/stock', [StockController::class, 'store'])->name('stock.store');
+    Route::get('/stock/{id}/edit', [StockController::class, 'edit'])->name('stock.edit');
+    Route::put('/stock/{id}', [StockController::class, 'update'])->name('stock.update');
+    Route::delete('/stock/{id}', [StockController::class, 'destroy'])->name('stock.destroy');
+    Route::get('/stock/{id}', [StockController::class, 'adminShow'])->name('stock.show');
+});
 
 // CartItem routes
 Route::resource('cart_items', CartItemController::class);

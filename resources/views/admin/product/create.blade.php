@@ -11,8 +11,7 @@
     <section class="bg-gray-100 py-8">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white p-6 rounded-lg shadow-lg">
-                <form id="productForm" action="{{ route('admin.product.store') }}" method="POST"
-                    enctype="multipart/form-data">
+                <form id="productForm" action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Product Name Input -->
@@ -36,6 +35,28 @@
                         @enderror
                     </div>
 
+                    <!-- Price Input -->
+                    <div class="mb-4">
+                        <label for="price" class="block text-gray-700 font-semibold">Price</label>
+                        <input type="number" step="0.01" id="price" name="price"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                            placeholder="Enter product price" value="{{ old('price') }}" required>
+                        @error('price')
+                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Pack Size Input -->
+                    <div class="mb-4">
+                        <label for="pack_size" class="block text-gray-700 font-semibold">Pack Size</label>
+                        <input type="text" id="pack_size" name="pack_size"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                            placeholder="Enter pack size (e.g., 100ml, 2 x 100ml)" value="{{ old('pack_size') }}" required>
+                        @error('pack_size')
+                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- Alpine.js & Tailwind CSS Searchable Multiselect -->
                     <div x-data="dropdown()" class="mb-4 relative">
                         <label for="category" class="block text-gray-700 font-semibold">Categories</label>
@@ -44,11 +65,9 @@
                         <div @click="toggle"
                             class="border-gray-300 border rounded-md shadow-sm cursor-pointer p-2 w-full">
                             <template x-if="selectedCategories.length > 0">
-                                <!-- Show selected categories -->
                                 <div class="flex flex-wrap">
                                     <template x-for="(category, index) in selectedCategories" :key="index">
-                                        <span
-                                            class="bg-green-100 text-green-800 rounded-full px-2 py-1 text-sm mr-2 mb-2">
+                                        <span class="bg-green-100 text-green-800 rounded-full px-2 py-1 text-sm mr-2 mb-2">
                                             <span x-text="category.name"></span>
                                             <button @click="removeCategory(index)" class="ml-1 text-red-500">x</button>
                                         </span>
@@ -56,7 +75,6 @@
                                 </div>
                             </template>
                             <template x-if="selectedCategories.length === 0">
-                                <!-- Placeholder text when no category selected -->
                                 <span class="text-gray-400">Select categories</span>
                             </template>
                         </div>
@@ -92,17 +110,6 @@
                         @enderror
                     </div>
 
-                    <!-- Product Manufacturer Input -->
-                    <div class="mb-4">
-                        <label for="manufacturer" class="block text-gray-700 font-semibold">Manufacturer</label>
-                        <input type="text" id="manufacturer" name="manufacturer"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                            placeholder="Enter manufacturer" value="{{ old('manufacturer') }}" required>
-                        @error('manufacturer')
-                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                     <!-- Product Image Input -->
                     <div class="mb-4">
                         <label for="image" class="block text-gray-700 font-semibold">Product Image</label>
@@ -113,20 +120,11 @@
                         @enderror
                     </div>
 
-                    <!-- In Stock Checkbox -->
-                    <div class="mb-4">
-                        <label for="inStock" class="block text-gray-700 font-semibold">In Stock</label>
-                        <input type="checkbox" id="inStock" name="inStock" value="1"
-                            {{ old('inStock') ? 'checked' : '' }}>
-                        <!-- Default value should be null if not checked -->
-                    </div>
-
                     <!-- Submit Button -->
                     <div class="mt-6">
                         <button id="submitBtn" type="submit"
                             class="bg-[#63C186] text-white px-4 py-2 rounded-md hover:bg-green-600 transition flex items-center justify-center">
                             <span id="submitText">Add Product</span>
-                            <!-- Spinner (initially hidden) -->
                             <svg id="spinner" class="hidden animate-spin h-5 w-5 ml-2 text-white"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -161,17 +159,12 @@
 
                 toggleCategory(category) {
                     if (!category || !category.id) return;
-                    console.log('toggleCategory called with:', category);
                     const index = this.selectedCategories.findIndex(item => item.id === category.id);
-                    console.log("Index: ", index);
                     if (index === -1) {
-                        console.log('Adding category:', category);
                         this.selectedCategories.push(category);
                     } else {
-                        console.log('Removing category:', category);
                         this.selectedCategories.splice(index, 1);
                     }
-                    console.log('Selected categories:', JSON.stringify(this.selectedCategories, null, 2));
                 },
 
                 removeCategory(index) {
@@ -181,7 +174,7 @@
 
                 get filteredCategories() {
                     if (!this.categories || this.searchQuery === '') {
-                        return this.categories || []; // Ensure it returns an empty array if categories is undefined
+                        return this.categories || [];
                     }
                     return this.categories.filter(category =>
                         category.name.toLowerCase().includes(this.searchQuery.toLowerCase())
@@ -190,7 +183,7 @@
             }
         }
     </script>
-    <!-- Add JavaScript to handle the loading state -->
+    
     <script>
         document.getElementById('productForm').addEventListener('submit', function(event) {
             var submitBtn = document.getElementById('submitBtn');
@@ -206,7 +199,6 @@
         });
     </script>
 
-    <!-- Tailwind CSS Spinner animation -->
     <style>
         @keyframes spin {
             to {

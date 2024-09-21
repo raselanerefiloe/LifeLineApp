@@ -12,8 +12,8 @@ class CartItem extends Model
     // The attributes that are mass assignable.
     protected $fillable = [
         'cart_id',
-        'package_id',
-        'quantity',
+        'product_id',
+        'pack_size',
         'price',
     ];
 
@@ -22,8 +22,8 @@ class CartItem extends Model
         return $this->belongsTo(Cart::class);
     }
 
-    public function package()
+    public function product()
     {
-        return $this->belongsTo(Package::class);
+        return $this->belongsTo(Product::class);
     }
 }

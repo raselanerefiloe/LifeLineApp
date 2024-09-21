@@ -122,7 +122,7 @@ class CartController extends Controller
         // Validate the request
         $request->validate([
             'product_id' => 'required|integer|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'pack_size' => 'required|string',
         ]);
 
         // Fetch the product and user information
@@ -136,14 +136,14 @@ class CartController extends Controller
         $cartItem = $cart->items()->where('product_id', $product->id)->first();
 
         if ($cartItem) {
-            // Update the quantity if the product is already in the cart
-            $cartItem->quantity += $request->input('quantity');
+            // Update the pack_size if the product is already in the cart
+            $cartItem->pack_size += $request->input('pack_size');
             $cartItem->save();
         } else {
             // Add a new item to the cart
             $cart->items()->create([
                 'product_id' => $product->id,
-                'quantity' => $request->input('quantity'),
+                'pack_size' => $request->input('pack_size'),
             ]);
         }
 
@@ -167,7 +167,20 @@ class CartController extends Controller
         ]);
 
         $cartItem = CartItem::findOrFail($request->input('item_id'));
-        $cartItem->quantity++;
+
+        // Extract the current quantity from pack_size
+        preg_match('/(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i', $cartItem->pack_size, $matches);
+
+        if (!empty($matches[1])) {
+            // Increment the quantity
+            $currentQuantity = (int) $matches[1];
+            $newQuantity = $currentQuantity + 1;
+
+            // Update pack_size with the new quantity (maintain original format)
+            $newPackSize = preg_replace('/^\d+/', $newQuantity, $cartItem->pack_size);
+            $cartItem->pack_size = $newPackSize;
+        }
+
         $cartItem->save();
 
         // Update the cart total
@@ -181,6 +194,7 @@ class CartController extends Controller
         ]);
     }
 
+
     public function decrement(Request $request)
     {
         $request->validate([
@@ -189,11 +203,24 @@ class CartController extends Controller
 
         $cartItem = CartItem::findOrFail($request->input('item_id'));
 
-        if ($cartItem->quantity > 1) {
-            $cartItem->quantity--;
-            $cartItem->save();
-        } else {
-            $cartItem->delete();
+        // Extract the current quantity from pack_size
+        preg_match('/(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i', $cartItem->pack_size, $matches);
+
+        if (!empty($matches[1])) {
+            $currentQuantity = (int) $matches[1];
+
+            if ($currentQuantity > 1) {
+                // Decrement the quantity
+                $newQuantity = $currentQuantity - 1;
+
+                // Update pack_size with the new quantity (maintain original format)
+                $newPackSize = preg_replace('/^\d+/', $newQuantity, $cartItem->pack_size);
+                $cartItem->pack_size = $newPackSize;
+                $cartItem->save();
+            } else {
+                // If quantity is 1, delete the cart item
+                $cartItem->delete();
+            }
         }
 
         // Update the cart total
@@ -206,6 +233,7 @@ class CartController extends Controller
             'total' => $cartItem->cart->total,
         ]);
     }
+
     public function delete(Request $request)
     {
         $request->validate([

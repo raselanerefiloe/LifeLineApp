@@ -33,7 +33,7 @@ class OrderItemController extends Controller
         $request->validate([
             'order_id' => 'required|exists:orders,id',
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'pack_size' => 'required|string',
             'price' => 'required|numeric|min:0',
         ]);
 
@@ -41,7 +41,7 @@ class OrderItemController extends Controller
         OrderItem::create([
             'order_id' => $request->input('order_id'),
             'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
+            'pack_size' => $request->input('pack_size'),
             'price' => $request->input('price'),
         ]);
 
@@ -73,13 +73,13 @@ class OrderItemController extends Controller
     {
         // Validate the request
         $request->validate([
-            'quantity' => 'required|integer|min:1',
+            'pack_size' => 'required|string',
             'price' => 'required|numeric|min:0',
         ]);
 
         // Update the order item
         $orderItem->update([
-            'quantity' => $request->input('quantity'),
+            'pack_size' => $request->input('pack_size'),
             'price' => $request->input('price'),
         ]);
 

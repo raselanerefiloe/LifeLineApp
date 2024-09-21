@@ -17,13 +17,23 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.product.index')" :active="request()->routeIs('admin.product.index')">
+                    <x-nav-link :href="route('admin.product.index')" :active="request()->routeIs(['admin.product.index', 'admin.product.create','admin.product.edit', 'admin.product.show'])">
                         {{ __('Products') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.category.index')" :active="request()->routeIs('admin.category.index')">
+                    <x-nav-link :href="route('admin.category.index')" :active="request()->routeIs(['admin.category.index','admin.category.create', 'admin.category.edit','admin.category.show'])">
                         {{ __('Categories') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.order.index')" :active="request()->routeIs(['admin.order.index','admin.order.show'])">
+                        {{ __('Orders') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.stock.index')" :active="request()->routeIs(['admin.stock.index', 'admin.stock.create', 'admin.stock.edit', 'admin.stock.show'])">
+                        {{ __('Stocks') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -82,14 +92,24 @@
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.product.index')" :active="request()->routeIs('admin.product.index')">
+            <x-responsive-nav-link :href="route('admin.product.index')" :active="request()->routeIs(['admin.product.index', 'admin.product.create','admin.product.edit', 'admin.product.show'])">
                 {{ __('Products') }}
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.category.index')" :active="request()->routeIs('admin.category.index')">
+            <x-responsive-nav-link :href="route('admin.category.index')" :active="request()->routeIs(['admin.category.index','admin.category.create', 'admin.category.edit','admin.category.show'])">
                 {{ __('Categories') }}
             </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('admin.order.index')" :active="request()->routeIs(['admin.order.index','admin.order.show'])">
+                {{ __('Orders') }}
+            </x-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('admin.stock.index')" :active="request()->routeIs(['admin.stock.index', 'admin.stock.create', 'admin.stock.edit', 'admin.stock.show'])">
+                {{ __('Stocks') }}
+            </x-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

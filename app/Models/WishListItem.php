@@ -12,8 +12,8 @@ class WishListItem extends Model
     // The attributes that are mass assignable.
     protected $fillable = [
         'wish_list_id',
-        'package_id',
-        'quantity',
+        'product_id',
+        'pack_size',
     ];
 
     // Define the relationship between WishListItem and WishList
@@ -22,10 +22,10 @@ class WishListItem extends Model
         return $this->belongsTo(WishList::class);
     }
 
-    // Define the relationship between WishListItem and Package
-    public function package()
+    // Define the relationship between WishListItem and Product
+    public function product()
     {
-        return $this->belongsTo(Package::class);
+        return $this->belongsTo(Product::class);
     }
 
 }

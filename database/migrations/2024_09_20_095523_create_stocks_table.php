@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('package_id')->constrained()->onDelete('cascade'); // Foreign key referencing packages table
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key referencing products table
             $table->string('sku')->unique(); // Unique Stock Keeping Unit
-            $table->integer('quantity'); // Quantity of this SKU in stock
+            $table->text('description')->nullable();
+            $table->string('manufacturer')->nullable();
+            $table->string('pack_size'); // Pack_Size of this SKU in stock
             $table->date('expiry_date')->nullable(); // Expiry date for this stock item
             $table->timestamps();
         });

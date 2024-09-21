@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image_url')->nullable();
-            $table->string('manufacturer')->nullable();
-            $table->boolean('inStock')->default(false);
+            $table->string('pack_size')->nullable();
+            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }

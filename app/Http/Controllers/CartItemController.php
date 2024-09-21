@@ -35,7 +35,7 @@ class CartItemController extends Controller
         $request->validate([
             'cart_id' => 'required|exists:carts,id',
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'pack_size' => 'required|string',
             'price' => 'required|numeric|min:0',
         ]);
 
@@ -49,7 +49,7 @@ class CartItemController extends Controller
         CartItem::create([
             'cart_id' => $request->input('cart_id'),
             'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
+            'pack_size' => $request->input('pack_size'),
             'price' => $request->input('price'),
         ]);
 
@@ -86,13 +86,13 @@ class CartItemController extends Controller
 
         // Validate the request
         $request->validate([
-            'quantity' => 'required|integer|min:1',
+            'pack_size' => 'required|string',
             'price' => 'required|numeric|min:0',
         ]);
 
         // Update the cart item
         $cartItem->update([
-            'quantity' => $request->input('quantity'),
+            'pack_size' => $request->input('pack_size'),
             'price' => $request->input('price'),
         ]);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Package;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -49,10 +50,10 @@ class ProductController extends Controller
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'category' => 'required|array',
+                'price' => 'required|numeric|min:0',
+                'pack_size' => 'required|string',
                 'category.*' => 'exists:categories,id',
-                'manufacturer' => 'required|string|max:255',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'inStock' => 'nullable|boolean'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Validation Errors:', $e->errors());
@@ -82,9 +83,9 @@ class ProductController extends Controller
             $product = new Product();
             $product->name = $request->name;
             $product->description = $request->description;
-            $product->manufacturer = $request->manufacturer;
+            $product->price = $request->price;
+            $product->pack_size = $request->pack_size;
             $product->image_url = $uploadedFileUrl;
-            $product->inStock = $request->has('inStock') ? true : false;
 
             // Save the product to the database
             $product->save();
@@ -161,12 +162,11 @@ class ProductController extends Controller
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric|min:0',
-                'quantity' => 'required|integer|min:0',
-                //'category' => 'required|array',
+                'pack_size' => 'required|string',
+                'category' => 'required|array',
                 'category.*' => 'exists:categories,id',
                 'manufacturer' => 'required|string|max:255',
                 'expiry_date' => 'required|date|after:today',
-                'size' => 'required|string|max:50',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image is optional for update
                 'inStock' => 'nullable|boolean'
             ]);
@@ -210,10 +210,9 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->description = $request->description;
             $product->price = $request->price;
-            $product->quantity = $request->quantity;
+            $product->pack_size = $request->pack_size;
             $product->manufacturer = $request->manufacturer;
             $product->expiry_date = $request->expiry_date;
-            $product->size = $request->size;
             $product->image_url = $uploadedFileUrl; // Update the image URL if necessary
             $product->inStock = $request->has('inStock') ? true : false;
 
@@ -259,5 +258,6 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index')
             ->with('success', 'Product deleted successfully.');
     }
+
 
 }
