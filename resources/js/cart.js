@@ -80,7 +80,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to add item to cart
     window.addToCart = function(productId, pack_size) {
-        console.log("Pack size.............: ",pack_size);
+        // Find the button, spinner, and cart icon elements
+        const button = event.currentTarget;
+        const spinner = button.querySelector('.loading-spinner');
+        const cartIcon = button.querySelector('.cart-icon');
+
+        // Show loading spinner, hide the cart icon, and disable the button
+        spinner.classList.remove('hidden');
+        cartIcon.classList.add('hidden');
+        button.disabled = true;
+
         fetch(routes.add, {
             method: 'POST',
             headers: {
@@ -102,6 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
+            // Hide loading spinner, show the cart icon, and enable the button
+            spinner.classList.add('hidden');
+            cartIcon.classList.remove('hidden');
+            button.disabled = false;
+
             if (data && data.success) {
                 updateCartUI(data.updatedCart, data.cartItemCount, data.total);
             } else {
@@ -109,6 +123,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
+            // Hide loading spinner, show the cart icon, and enable the button in case of error
+            spinner.classList.add('hidden');
+            cartIcon.classList.remove('hidden');
+            button.disabled = false;
             console.error('Error:', error);
         });
     }
