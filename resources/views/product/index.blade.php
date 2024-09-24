@@ -79,32 +79,38 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach ($products as $product)
                         <div class="relative bg-white rounded-lg shadow-md overflow-hidden group">
-                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
-                                class="w-full h-48 object-cover">
-                            <div
-                                class="absolute inset-0 flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 bg-gray-800 bg-opacity-50 transition-opacity duration-300">
+                            <!-- Product Image -->
+                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
+                            
+                            <!-- Hover Overlay with Icons -->
+                            <div class="absolute inset-0 flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 bg-gray-800 bg-opacity-50 transition-opacity duration-300">
                                 <!-- Add to Cart Icon -->
-                                <button onclick="addToCart({{ $product->id }}, '{{ $product->pack_size }}')"
-                                    class="text-white text-3xl mb-4 mt-2 mr-4 add-to-cart-btn">
+                                <button onclick="addToCart({{ $product->id }}, '{{ $product->pack_size }}')" class="text-white text-2xl sm:text-3xl mb-4 mt-2 mr-4 add-to-cart-btn">
                                     <span class="cart-icon"><i class="fas fa-cart-plus"></i></span>
                                     <span class="loading-spinner hidden"><i class="fas fa-spinner fa-spin"></i></span>
                                 </button>
-                                <a href="#" class="text-white text-3xl mb-4 mr-4">
+                                <a href="#" class="hidden text-white text-2xl sm:text-3xl mb-4 mr-4">
                                     <i class="fas fa-heart"></i>
                                 </a>
-                                <a href="#" class="text-white text-3xl mr-4">
+                                <a href="#" class="text-white text-2xl sm:text-3xl mr-4">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </div>
+                            
+                            <!-- Product Details -->
                             <div class="p-6">
-                                <h3 class="text-xl font-semibold text-green-600">{{ $product->name }}</h3>
-                                <p class="mt-2 text-gray-600">{{ $product->description }}</p>
-                                <p class="mt-4 text-green-600 font-semibold">R{{ number_format($product->price, 2) }}
+                                <h3 class="text-lg sm:text-md lg:text-xl font-semibold text-green-600 line-clamp-1">{{ $product->name }}</h3>
+                                <!-- Truncated Description -->
+                                <p class="mt-2 text-sm sm:text-base lg:text-lg text-gray-600 line-clamp-2 min-h-[48px]">
+                                    {{ $product->description }}
+                                </p>
+                                <p class="mt-4 text-base sm:text-sm lg:text-xl text-green-600 font-semibold">
+                                    R{{ number_format($product->price, 2) }}
                                 </p>
                             </div>
                         </div>
                     @endforeach
-                </div>
+                </div>                
             </div>
         </div>
     </div>
