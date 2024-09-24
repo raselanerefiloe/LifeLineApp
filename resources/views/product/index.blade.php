@@ -84,7 +84,7 @@
                                 <a href="#" class="hidden text-white text-2xl sm:text-3xl mb-4 mr-4">
                                     <i class="fas fa-heart"></i>
                                 </a>
-                                <a href="#" class="text-white text-2xl sm:text-3xl mr-4">
+                                <a href="{{ route('product.show', $product->id) }}" class="text-white text-2xl sm:text-3xl mr-4">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </div>
