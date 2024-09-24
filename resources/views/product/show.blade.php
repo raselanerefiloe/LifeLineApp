@@ -26,10 +26,11 @@
                 <!-- Input for pack size -->
                 <input type="text" id="pack_size_{{ $product->id }}" value="{{ $product->pack_size }}"
                     class="text-black p-2 lg:p-3 rounded-md mb-2 w-full" />
-
+                 <!-- Error Message -->
+                 <div id="packSizeError" class="text-red-500 hidden mb-2"></div>
                 <!-- Add to Cart Icon -->
                 <button
-                    onclick="addToCart({{ $product->id }}, document.getElementById('pack_size_{{ $product->id }}').value)"
+                    onclick="validateAndAddToCart({{ $product->id }})"
                     class="text-white text-2xl sm:text-3xl mb-4 mt-2 mr-4 add-to-cart-btn relative">
                     <span class="cart-icon text-white text-sm lg:text-[20px] bg-green-300 p-2.5 rounded-sm"><i
                             class="fas fa-cart-plus mr-2"></i>Add to cart</span>
@@ -55,4 +56,29 @@
 
     <!-- Include JavaScript -->
     @vite(['resources/js/cart.js'])
+
+    <script>
+        function validateAndAddToCart(productId) {
+            const packSizeInput = document.getElementById('pack_size_' + productId);
+            const packSizeError = document.getElementById('packSizeError');
+            const packSizeValue = packSizeInput.value.trim();
+
+            // Regular expression for validating pack size
+            const packSizePattern = /(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i; // e.g., "1 X 100ml" or "2 by 250g"
+
+            // Clear any previous error messages
+            packSizeError.classList.add('hidden');
+            packSizeError.innerText = '';
+
+            // Validate pack size format
+            if (!packSizePattern.test(packSizeValue)) {
+                packSizeError.innerText = 'Please enter a valid pack size (e.g., 1 X 100ml)';
+                packSizeError.classList.remove('hidden');
+                return; // Stop the function if the format is invalid
+            }
+
+            // If validation passes, proceed to add to cart
+            addToCart(productId, packSizeValue);
+        }
+    </script>
 </x-guest-layout>
