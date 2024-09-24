@@ -91,12 +91,10 @@
                 <button id="cartButton" class="relative text-gray-600 hover:text-gray-900">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <!-- Badge -->
-                    @if ($cartItemCount > 0)
-                        <span id="cartBadge"
-                            class="absolute top-[-10px] right-[-10px] inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                            {{ $cartItemCount }}
-                        </span>
-                    @endif
+                    <span id="cartBadge"
+                        class="absolute top-[-10px] right-[-10px] items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full hidden">
+                        {{ $cartItemCount }}
+                    </span>
                 </button>
 
                 <!-- Include Cart Popup Component -->
