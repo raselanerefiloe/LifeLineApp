@@ -16,7 +16,7 @@
         <!-- Main Content -->
         <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Filter Sidebar -->
-            <aside class="bg-white p-6 rounded-lg shadow-md md:col-span-1">
+            <aside class="bg-white p-6 rounded-lg shadow-md md:col-span-1 h-64">
                 <form method="GET" action="{{ route('product.index') }}">
                     <!-- Category Filter -->
                     <div class="mb-4">
@@ -62,17 +62,12 @@
                 <!-- Search Bar -->
                 <div class="mb-6">
                     <form class="relative" method="GET" action="{{ route('product.index') }}">
-                        <input type="text" placeholder="Search products..." name="search"
-                            class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            value="{{ request('search') }}">
-                        <button type="submit"
-                            class="absolute inset-y-0 right-0 px-4 py-2 bg-green-600 text-white rounded-r-lg hover:bg-green-700">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11 4a7 7 0 00-7 7 7 7 0 0014 0 7 7 0 00-7-7zm0 14a9 9 0 01-9-9 9 9 0 1118 0 9 9 0 01-9 9z" />
-                            </svg>
-                        </button>
+                        <div class="flex items-center border border-gray-300 rounded-full overflow-hidden max-w-md w-full m-auto lg:ml-14 transition duration-300 focus-within:border-green-500">
+                            <input type="text" placeholder="Search..." class="flex-grow py-2 px-4 text-base border-none outline-none focus:ring-0" />
+                            <button class="bg-green-500 hover:bg-green-600 text-white rounded-full p-2 transition duration-300">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>                        
                     </form>
                 </div>
 
