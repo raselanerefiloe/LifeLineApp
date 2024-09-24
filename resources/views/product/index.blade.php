@@ -101,7 +101,7 @@
                             <div class="p-6">
                                 <h3 class="text-lg sm:text-md lg:text-xl font-semibold text-green-600 line-clamp-1">{{ $product->name }}</h3>
                                 <!-- Truncated Description -->
-                                <p class="mt-2 text-sm sm:text-base lg:text-lg text-gray-600 line-clamp-2 min-h-[48px]">
+                                <p class="mt-2 text-sm sm:text-base lg:text-md text-gray-600 line-clamp-2 min-h-[48px]">
                                     {{ $product->description }}
                                 </p>
                                 <p class="mt-4 text-base sm:text-sm lg:text-xl text-green-600 font-semibold">
