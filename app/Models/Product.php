@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products';
-    
+
     protected $fillable = [
         'name',
         'description',
@@ -31,4 +31,10 @@ class Product extends Model
     {
         return $this->hasMany(Stock::class);
     }
+    public function isInStock()
+    {
+        // Check if there are any stock records for this product
+        return $this->stocks()->exists() ? 1 : 0; // Returns 1 if in stock, else 0
+    }
+
 }

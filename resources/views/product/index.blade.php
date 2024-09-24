@@ -25,8 +25,8 @@
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                             <option value="">All Categories</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->name }}"
-                                    {{ request('category') == $category->name ? 'selected' : '' }}>
+                                <option value="{{ $category->id }}"
+                                    {{ request('category') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
@@ -41,10 +41,6 @@
                             <option value="">All Availability</option>
                             <option value="in-stock" {{ request('availability') == 'in-stock' ? 'selected' : '' }}>In
                                 Stock</option>
-                            <option value="out-of-stock"
-                                {{ request('availability') == 'out-of-stock' ? 'selected' : '' }}>Out of Stock</option>
-                            <option value="pre-order" {{ request('availability') == 'pre-order' ? 'selected' : '' }}>
-                                Pre-order</option>
                         </select>
                     </div>
 
