@@ -13,12 +13,23 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Fetch all categories from the database
         $categories = Category::all();
+
         // Fetch all products from the database
         $products = Product::all();
+
+        // Get search term
+        $searchTerm = $request->input('search');
+
+        // Query products with search functionality
+        $products = Product::when($searchTerm, function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('description', 'like', '%' . $searchTerm . '%');
+        })->get();
+
         return view('product.index', ['products' => $products, 'categories' => $categories]);
     }
 

@@ -63,8 +63,9 @@
                 <div class="mb-6">
                     <form class="relative" method="GET" action="{{ route('product.index') }}">
                         <div class="flex items-center border border-gray-300 rounded-full overflow-hidden max-w-md w-full m-auto lg:ml-14 transition duration-300 focus-within:border-green-500">
-                            <input type="text" placeholder="Search..." class="flex-grow py-2 px-4 text-base border-none outline-none focus:ring-0" />
-                            <button class="bg-green-500 hover:bg-green-600 text-white rounded-full p-2 transition duration-300">
+                            <input type="text" name="search" placeholder="Search..." class="flex-grow py-2 px-4 text-base border-none outline-none focus:ring-0"
+                            value="{{ request('search') }}"/>
+                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white rounded-full p-2 transition duration-300">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>                        
