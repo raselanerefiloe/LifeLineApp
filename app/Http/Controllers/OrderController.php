@@ -149,7 +149,7 @@ class OrderController extends Controller
         $order->save();
 
         // Redirect with a success message
-        return redirect()->route(Auth::user()->usertype === 'admin' ? 'admin.order.index' : 'orders.index')
+        return redirect()->route(Auth::user()->usertype === 'Admin' ? 'admin.order.index' : 'orders.index')
             ->with('success', 'Order has been canceled successfully.');
     }
 
