@@ -22,7 +22,7 @@
                             <p><strong>Email:</strong> {{ $order->user->email }}</p>
                             <p><strong>Phone:</strong> {{ $order->user->phone ?? 'N/A' }}</p>
                             <p><strong>Total Amount:</strong> R{{ number_format($order->total, 2) }}</p>
-                            <p><strong>Status:</strong> 
+                            <p><strong>Status:</strong>
                                 @if ($order->status === 'pending')
                                     <span class="text-yellow-500">Pending</span>
                                 @elseif ($order->status === 'processing')
@@ -31,6 +31,8 @@
                                     <span class="text-green-500">On the Way</span>
                                 @elseif ($order->status === 'completed')
                                     <span class="text-gray-500">Completed</span>
+                                @elseif ($order->status === 'cancelled')
+                                    <span class="text-red-500">Cancelled</span>
                                 @else
                                     <span class="text-red-500">Unknown Status</span>
                                 @endif
@@ -45,7 +47,8 @@
                             @foreach ($order->orderItems as $item)
                                 <li class="flex items-center justify-between py-4">
                                     <div class="flex items-center space-x-2">
-                                        <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" class="h-16 w-16 object-cover rounded-md">
+                                        <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}"
+                                            class="h-16 w-16 object-cover rounded-md">
                                         <div>
                                             <p class="text-sm font-medium text-gray-900">{{ $item->product->name }}</p>
                                             <p class="text-sm text-gray-500">{{ $item->pack_size }}</p>
@@ -59,15 +62,23 @@
 
                     <!-- Action Buttons -->
                     <div class="flex space-x-4 mt-6">
-                        <a href="{{ route('admin.order.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 active:bg-blue-800 transition">
-                            Back to Orders
-                        </a>
-                        <x-confirm-delete 
-                            :title="'Delete Order'"
-                            :message="'Are you sure you want to delete this order?'"
-                            :action="route('admin.order.destroy', $order->id)"
-                            :triggerText="'Delete Order'"
-                        />
+                        @if (Auth::user()->usertype === 'admin')
+                            <!-- Show cancel button for admin -->
+                            <form action="{{ route('admin.order.cancel', $order->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-warning">Cancel Order</button>
+                            </form>
+                        @elseif(Auth::id() === $order->user_id && in_array($order->status, ['pending', 'processing']))
+                            <!-- Show cancel button for customer if order is pending or processing -->
+                            <form action="" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-warning">Cancel Order</button>
+                            </form>
+                        @endif
+
+                        <x-confirm-delete :title="'Delete Order'" :message="'Are you sure you want to delete this order?'" :action="route('admin.order.destroy', $order->id)" :triggerText="'Delete Order'" />
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-/**
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -18,7 +18,8 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    public function adminIndex(){
+    public function adminIndex()
+    {
         $orders = Order::with('orderItems')->get();
         \Log::info("Orders", ['orders' => $orders]);
         return view('admin.order.index', ['orders' => $orders]);
@@ -103,17 +104,55 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        // Ensure the order belongs to the authenticated user
-        if ($order->user_id !== Auth::id()) {
+        $order = Order::findOrFail($id);
+        // Check if the authenticated user is the order owner or an admin
+        $user = Auth::user();
+        \Log::info("User: ", ["user" => $user]);
+        if ($user->id !== $order->user_id || $user->usertype !== 'Admin') {
             abort(403, 'Unauthorized action.');
         }
 
         // Delete the order
         $order->delete();
 
-        return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+        return redirect()->route('admin.order.index')->with('success', 'Order deleted successfully.');
     }
+
+    public function cancel($id)
+    {
+        $order = Order::findOrFail($id);
+
+        // Check if the order is already completed or cancelled
+        if ($order->status === 'completed' || $order->status === 'cancelled') {
+            return redirect()->back()->with('error', 'This order cannot be canceled.');
+        }
+
+        // Check if the authenticated user is an admin or the owner of the order
+        if (Auth::user()->usertype === 'admin') {
+            // Admin can cancel any order
+            $order->status = 'cancelled';
+        } elseif (Auth::id() === $order->user_id) {
+            // Customer can cancel their own order only if it's still pending or processing
+            if ($order->status === 'pending' || $order->status === 'processing') {
+                $order->status = 'cancelled';
+            } else {
+                return redirect()->back()->with('error', 'You can only cancel orders that are pending or processing.');
+            }
+        } else {
+            // Unauthorized action
+            return redirect()->back()->with('error', 'You are not authorized to cancel this order.');
+        }
+
+        // Save the updated order status
+        $order->save();
+
+        // Redirect with a success message
+        return redirect()->route(Auth::user()->usertype === 'admin' ? 'admin.order.index' : 'orders.index')
+            ->with('success', 'Order has been canceled successfully.');
+    }
+
+
 
 }

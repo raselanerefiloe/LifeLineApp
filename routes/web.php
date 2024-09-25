@@ -87,6 +87,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('/order/{id}', [OrderController::class, 'update'])->name('order.update');
     Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
     Route::get('/order/{id}', [OrderController::class, 'adminShow'])->name('order.show');
+    Route::patch('/order/{id}', [OrderController::class, 'cancel'])->name('order.cancel'); // Fixed the error here
 });
 
 // Stock routes

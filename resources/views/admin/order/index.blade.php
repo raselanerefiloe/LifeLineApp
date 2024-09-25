@@ -63,42 +63,44 @@
                                             <ul>
                                                 @foreach ($order->orderItems as $item)
                                                     <li class="flex items-center space-x-2">
-                                                        <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" class="h-12 w-12 object-cover rounded-md">
-                                                        <span>{{ $item->product->name }} ({{ $item->pack_size }}) - R{{ number_format($item->price, 2) }}</span>
+                                                        <img src="{{ $item->product->image_url }}"
+                                                            alt="{{ $item->product->name }}"
+                                                            class="h-12 w-12 object-cover rounded-md">
+                                                        <span>{{ $item->product->name }} ({{ $item->pack_size }}) -
+                                                            R{{ number_format($item->price, 2) }}</span>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             R{{ number_format($order->total, 2) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                @if ($order->status === 'pending')
-                                                    <span class="text-yellow-500">Pending</span>
-                                                @elseif ($order->status === 'processing')
-                                                    <span class="text-blue-500">Processing</span>
-                                                @elseif ($order->status === 'on the way')
-                                                    <span class="text-green-500">On the Way</span>
-                                                @elseif ($order->status === 'completed')
-                                                    <span class="text-gray-500">Completed</span>
-                                                @else
-                                                    <span class="text-red-500">Unknown Status</span>
-                                                @endif
-                                            </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            @if ($order->status === 'pending')
+                                                <span class="text-yellow-500">Pending</span>
+                                            @elseif ($order->status === 'processing')
+                                                <span class="text-blue-500">Processing</span>
+                                            @elseif ($order->status === 'on the way')
+                                                <span class="text-green-500">On the Way</span>
+                                            @elseif ($order->status === 'completed')
+                                                <span class="text-gray-500">Completed</span>
+                                            @elseif ($order->status === 'cancelled')
+                                                <!-- Added this block for cancelled status -->
+                                                <span class="text-red-500">Cancelled</span>
+                                            @else
+                                                <span class="text-red-500">Unknown Status</span>
+                                            @endif
+                                        </td>
                                         <td class="flex space-x-4 px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('admin.order.show', $order->id) }}"
                                                 class="text-blue-600 hover:text-blue-900">View</a>
-                                            <x-confirm-delete 
-                                                :title="'Delete Order'"
-                                                :message="'Are you sure you want to delete this order?'"
-                                                :action="route('admin.order.destroy', $order->id)"
-                                                :triggerText="'Delete'"
-                                            />
+                                            <x-confirm-delete :title="'Delete Order'" :message="'Are you sure you want to delete this order?'" :action="route('admin.order.destroy', $order->id)"
+                                                :triggerText="'Delete'" />
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
                                         <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                            No orders found. <a href="{{ route('admin.order.create') }}" class="text-blue-600 hover:text-blue-900">Get started by adding an order.</a>
+                                            No orders found. </a>
                                         </td>
                                     </tr>
                                 @endforelse
