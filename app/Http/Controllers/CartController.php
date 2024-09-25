@@ -138,7 +138,7 @@ class CartController extends Controller
 
     if ($cartItem) {
         // Update the pack_size if the product is already in the cart
-        preg_match('/^(\d+)\s*(?:x|by)\s*(\d*)\s*[a-zA-Z]+/i', $cartItem->pack_size, $matches);
+        preg_match('/(\d+)\s*(?:x|by)?\s*(\d*)\s*([a-zA-Z]+)/i', $cartItem->pack_size, $matches);
 
         if (!empty($matches[1])) {
             // Increment the quantity
@@ -199,7 +199,7 @@ class CartController extends Controller
         $cartItem = CartItem::findOrFail($request->input('item_id'));
 
         // Extract the current quantity from pack_size
-        preg_match('/(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i', $cartItem->pack_size, $matches);
+        preg_match('/(\d+)\s*(?:x|by)?\s*(\d*)\s*([a-zA-Z]+)/i', $cartItem->pack_size, $matches);
 
         if (!empty($matches[1])) {
             // Increment the quantity
@@ -235,7 +235,7 @@ class CartController extends Controller
         $cartItem = CartItem::findOrFail($request->input('item_id'));
 
         // Extract the current quantity from pack_size
-        preg_match('/(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i', $cartItem->pack_size, $matches);
+        preg_match('/(\d+)\s*(?:x|by)?\s*(\d*)\s*([a-zA-Z]+)/i', $cartItem->pack_size, $matches);
 
         if (!empty($matches[1])) {
             $currentQuantity = (int) $matches[1];

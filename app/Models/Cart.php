@@ -33,7 +33,7 @@ class Cart extends Model
     {
         $this->total = $this->items()->get()->sum(function ($item) {
             // Extract quantity from pack_size
-            preg_match('/(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i', $item->pack_size, $matches);
+            preg_match('/(\d+)\s*(?:x|by)?\s*(\d*)\s*([a-zA-Z]+)/i', $item->pack_size, $matches);
             
             // Check if quantity is found
             $quantity = !empty($matches[1]) ? (int) $matches[1] : 0;

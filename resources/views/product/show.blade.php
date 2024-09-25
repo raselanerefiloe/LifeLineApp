@@ -61,8 +61,7 @@
             const packSizeValue = packSizeInput.value.trim();
 
             // Regular expression for validating pack size
-            const packSizePattern = /(\d+)\s*(?:x|by)\s*\d*\s*[a-zA-Z]+/i; // e.g., "1 X 100ml" or "2 by 250g"
-
+            const packSizePattern = /(\d+)\s*(?:x|by)?\s*(\d*)\s*([a-zA-Z]+)/i;
             // Clear any previous error messages
             packSizeError.classList.add('hidden');
             packSizeError.innerText = '';
