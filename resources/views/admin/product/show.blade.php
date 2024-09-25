@@ -42,7 +42,7 @@
                             <!-- Price (Optional, adjust based on your schema) -->
                             <div class="mb-4">
                                 <h4 class="font-bold text-gray-700">Price:</h4>
-                                <p class="text-gray-600">${{ number_format($product->price, 2) }}</p>
+                                <p class="text-gray-600">R{{ number_format($product->price, 2) }}</p>
                             </div>
 
                             <!-- Stock Quantity (Optional) -->

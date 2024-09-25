@@ -108,24 +108,24 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    // Find the category by its ID
-    $category = Category::findOrFail($id);
+    {
+        // Find the category by its ID
+        $category = Category::findOrFail($id);
 
-    // Check if the category has an image URL and delete it from Cloudinary
-    if ($category->image_url) {
-        // Extract the public ID from the image URL
-        $publicId = basename(parse_url($category->image_url, PHP_URL_PATH));
+        // Check if the category has an image URL and delete it from Cloudinary
+        if ($category->image_url) {
+            // Extract the public ID from the image URL
+            $publicId = basename($category->image_url, '.' . pathinfo($category->image_url, PATHINFO_EXTENSION));
 
-        // Delete the image from Cloudinary
-        Cloudinary::destroy($publicId);
+            // Delete the image from Cloudinary
+            Cloudinary::destroy('lifeline/categories/' . $publicId);
+        }
+
+        // Delete the category
+        $category->delete();
+
+        // Redirect back with a success message
+        return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully.');
     }
-
-    // Delete the category
-    $category->delete();
-
-    // Redirect back with a success message
-    return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully.');
-}
 
 }

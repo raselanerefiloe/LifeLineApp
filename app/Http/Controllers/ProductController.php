@@ -216,10 +216,7 @@ class ProductController extends Controller
                 'pack_size' => 'required|string',
                 'category' => 'required|array',
                 'category.*' => 'exists:categories,id',
-                'manufacturer' => 'required|string|max:255',
-                'expiry_date' => 'required|date|after:today',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image is optional for update
-                'inStock' => 'nullable|boolean'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Validation Errors:', $e->errors());
@@ -262,10 +259,7 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->price = $request->price;
             $product->pack_size = $request->pack_size;
-            $product->manufacturer = $request->manufacturer;
-            $product->expiry_date = $request->expiry_date;
             $product->image_url = $uploadedFileUrl; // Update the image URL if necessary
-            $product->inStock = $request->has('inStock') ? true : false;
 
             // Save the updated product to the database
             $product->save();
@@ -295,10 +289,10 @@ class ProductController extends Controller
         // Delete the product image from Cloudinary if it exists
         if ($product->image_url) {
             // Extract the public ID from the image URL
-            $publicId = basename(parse_url($product->image_url, PHP_URL_PATH));
+            $publicId = basename($product->image_url, '.' . pathinfo($product->image_url, PATHINFO_EXTENSION));
 
             // Delete the image from Cloudinary
-            Cloudinary::destroy($publicId);
+            Cloudinary::destroy('lifeline/products/'.$publicId);
 
         }
 
