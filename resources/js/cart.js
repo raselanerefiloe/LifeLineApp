@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const button = event.currentTarget;
         const spinner = button.querySelector('.loading-spinner');
         const cartIcon = button.querySelector('.cart-icon');
-
+        
         // Show loading spinner, hide the cart icon, and disable the button
         spinner.classList.remove('hidden');
         cartIcon.classList.add('hidden');

@@ -292,7 +292,7 @@ class ProductController extends Controller
             $publicId = basename($product->image_url, '.' . pathinfo($product->image_url, PATHINFO_EXTENSION));
 
             // Delete the image from Cloudinary
-            Cloudinary::destroy('lifeline/products/'.$publicId);
+            Cloudinary::destroy("lifeline/products/{$publicId}");
 
         }
 

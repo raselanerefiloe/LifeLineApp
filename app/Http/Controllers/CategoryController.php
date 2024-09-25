@@ -118,7 +118,7 @@ class CategoryController extends Controller
             $publicId = basename($category->image_url, '.' . pathinfo($category->image_url, PATHINFO_EXTENSION));
 
             // Delete the image from Cloudinary
-            Cloudinary::destroy('lifeline/categories/' . $publicId);
+            Cloudinary::destroy("lifeline/categories/{$publicId}");
         }
 
         // Delete the category

@@ -60,6 +60,7 @@
             const packSizeError = document.getElementById('packSizeError');
             const packSizeValue = packSizeInput.value.trim();
 
+            console.log("Pack size value: ", packSizeValue);
             // Regular expression for validating pack size
             const packSizePattern = /(\d+)\s*(?:x|by)?\s*(\d*)\s*([a-zA-Z]+)/i;
             // Clear any previous error messages
