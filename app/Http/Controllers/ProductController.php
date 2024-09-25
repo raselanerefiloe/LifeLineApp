@@ -14,55 +14,55 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    // Fetch all categories from the database
-    $categories = Category::all();
+    {
+        // Fetch all categories from the database
+        $categories = Category::all();
 
-    // Get search term, category, and availability from the request
-    $searchTerm = $request->input('search');
-    $selectedCategory = $request->input('category');
-    $selectedAvailability = $request->input('availability');
+        // Get search term, category, and availability from the request
+        $searchTerm = $request->input('search');
+        $selectedCategory = $request->input('category');
+        $selectedAvailability = $request->input('availability');
 
-    // Build the query for products
-    $productsQuery = Product::query();
+        // Build the query for products
+        $productsQuery = Product::query();
 
-    // Apply search filter if provided
-    if ($searchTerm) {
-        $productsQuery->where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('description', 'like', '%' . $searchTerm . '%');
-        });
-    }
-
-     // Apply category filter if provided
-     if ($selectedCategory) {
-        $productsQuery->whereHas('categories', function ($query) use ($selectedCategory) {
-            $query->where('categories.id', $selectedCategory);
-        });
-    }
-
-    // Apply availability filter if provided
-    if ($selectedAvailability) {
-        if ($selectedAvailability === 'in-stock') {
-            // Filter products that are in stock using the isInStock method
-            $productsQuery->whereHas('stocks'); // Check for stocks associated with the product
-        } elseif ($selectedAvailability === 'out-of-stock') {
-            // Filter products that are out of stock
-            $productsQuery->whereDoesntHave('stocks'); // Ensure no stocks are associated
+        // Apply search filter if provided
+        if ($searchTerm) {
+            $productsQuery->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('description', 'like', '%' . $searchTerm . '%');
+            });
         }
+
+        // Apply category filter if provided
+        if ($selectedCategory) {
+            $productsQuery->whereHas('categories', function ($query) use ($selectedCategory) {
+                $query->where('categories.id', $selectedCategory);
+            });
+        }
+
+        // Apply availability filter if provided
+        if ($selectedAvailability) {
+            if ($selectedAvailability === 'in-stock') {
+                // Filter products that are in stock using the isInStock method
+                $productsQuery->whereHas('stocks'); // Check for stocks associated with the product
+            } elseif ($selectedAvailability === 'out-of-stock') {
+                // Filter products that are out of stock
+                $productsQuery->whereDoesntHave('stocks'); // Ensure no stocks are associated
+            }
+        }
+
+        // Fetch the products based on the constructed query
+        $products = $productsQuery->get();
+
+        return view('product.index', [
+            'products' => $products,
+            'categories' => $categories,
+            'selectedCategory' => $selectedCategory,
+            'selectedAvailability' => $selectedAvailability,
+            'searchTerm' => $searchTerm,
+        ]);
     }
-
-    // Fetch the products based on the constructed query
-    $products = $productsQuery->get();
-
-    return view('product.index', [
-        'products' => $products,
-        'categories' => $categories,
-        'selectedCategory' => $selectedCategory,
-        'selectedAvailability' => $selectedAvailability,
-        'searchTerm' => $searchTerm,
-    ]);
-}
 
     public function adminIndex()
     {
@@ -164,7 +164,15 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id); // Use findOrFail for better error handling
-    return view('product.show', compact('product'));
+        return view('product.show', compact('product'));
+    }
+
+    public function adminShow($id)
+    {
+        $product = Product::findOrFail($id);
+        $stockQuantity = $product->stockQuantity();  // Get total stock quantity
+
+        return view('admin.product.show', compact('product', 'stockQuantity'));
     }
 
     /**

@@ -63,25 +63,26 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                             {{ $product->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td class="px-6 py-4  text-sm text-gray-500 w-64 line-clamp-2">
                                             {{ $product->description }}</td>
-                                        <td class="flex space-x-4 px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('admin.product.show', $product->id) }}"
-                                                class="text-blue-600 hover:text-blue-900">View</a>
-                                            <a href="{{ route('admin.product.edit', $product->id) }}"
-                                                class="ml-4 text-yellow-600 hover:text-yellow-900">Edit</a>
-                                            <x-confirm-delete 
-                                                :title="'Delete Product'"
-                                                :message="'Are you sure you want to delete this product?'"
-                                                :action="route('admin.product.destroy', $product->id)"
-                                                :triggerText="'Delete'"
-                                            />
+                                        <!-- Actions column displayed in a row (horizontal) -->
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <div class="inline-flex space-x-4">
+                                                <a href="{{ route('admin.product.show', $product->id) }}"
+                                                    class="text-blue-600 hover:text-blue-900">View</a>
+                                                <a href="{{ route('admin.product.edit', $product->id) }}"
+                                                    class="text-yellow-600 hover:text-yellow-900">Edit</a>
+                                                <x-confirm-delete :title="'Delete Product'" :message="'Are you sure you want to delete this product?'" :action="route('admin.product.destroy', $product->id)"
+                                                    :triggerText="'Delete'" class="text-red-600 hover:text-red-900" />
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
                                         <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                            No products found. <a href="{{ route('admin.product.create') }}" class="text-blue-600 hover:text-blue-900">Get started by adding a product.</a>
+                                            No products found. <a href="{{ route('admin.product.create') }}"
+                                                class="text-blue-600 hover:text-blue-900">Get started by adding a
+                                                product.</a>
                                         </td>
                                     </tr>
                                 @endforelse

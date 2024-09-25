@@ -1,12 +1,10 @@
 <x-guest-layout>
-    
-
-        <!-- Back Button -->
-        <div class="ml-8">
-            <a href="{{ route('product.index') }}" class="text-green-600 hover:underline">
-                &larr; Back to Products
-            </a>
-        </div>
+    <!-- Back Button -->
+    <div class="ml-8">
+        <a href="{{ route('product.index') }}" class="text-green-600 hover:underline">
+            &larr; Back to Products
+        </a>
+    </div>
     <div class="container mx-auto py-12 px-6 lg:px-8">
         <!-- Product Details Section -->
         <div class="flex flex-col lg:flex-row">
@@ -26,11 +24,10 @@
                 <!-- Input for pack size -->
                 <input type="text" id="pack_size_{{ $product->id }}" value="{{ $product->pack_size }}"
                     class="text-black p-2 lg:p-3 rounded-md mb-2 w-full" />
-                 <!-- Error Message -->
-                 <div id="packSizeError" class="text-red-500 hidden mb-2"></div>
+                <!-- Error Message -->
+                <div id="packSizeError" class="text-red-500 hidden mb-2"></div>
                 <!-- Add to Cart Icon -->
-                <button
-                    onclick="validateAndAddToCart({{ $product->id }})"
+                <button onclick="validateAndAddToCart({{ $product->id }})"
                     class="text-white text-2xl sm:text-3xl mb-4 mt-2 mr-4 add-to-cart-btn relative">
                     <span class="cart-icon text-white text-sm lg:text-[20px] bg-green-300 p-2.5 rounded-sm"><i
                             class="fas fa-cart-plus mr-2"></i>Add to cart</span>
