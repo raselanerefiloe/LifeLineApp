@@ -60,6 +60,14 @@ class OrderController extends Controller
         // Redirect to the index of OrderController
         return redirect()->route('orders.index');
     }
+    public function adminShow($id)
+    {
+        // Fetch the order with its related items and user
+        $order = Order::with(['orderItems.product', 'user'])->findOrFail($id);
+
+        // Return the view with the order details
+        return view('admin.order.show', compact('order'));
+    }
 
     /**
      * Show the form for editing the specified resource.
